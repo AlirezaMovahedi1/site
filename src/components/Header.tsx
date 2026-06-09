@@ -14,17 +14,17 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo}>
-          <svg viewBox="0 0 100 125" className={styles.logoIcon} fill="currentColor">
+          <svg viewBox="0 0 100 120" className={styles.logoIcon} fill="currentColor">
             {/* Top-Left Triangle */}
             <polygon points="18,28 49,10 49,46" />
-            {/* Top-Right Parallelogram */}
-            <polygon points="51,11 85,31 85,67 51,47" />
-            {/* Middle Parallelogram */}
-            <polygon points="18,34 85,73 85,91 18,52" />
-            {/* Bottom-Left Parallelogram */}
-            <polygon points="18,58 49,76 49,112 18,94" />
+            {/* Top-Right Triangle */}
+            <polygon points="82,28 51,10 51,46" />
+            {/* Middle Parallelogram (Thicker, smaller gaps) */}
+            <polygon points="18,30 82,67 82,93 18,56" />
+            {/* Bottom-Left Triangle */}
+            <polygon points="18,94 49,112 49,76" />
             {/* Bottom-Right Triangle */}
-            <polygon points="85,97 51,77 51,113" />
+            <polygon points="82,95 51,113 51,77" />
           </svg>
           <div className={styles.logoText}>
             <h1>سیدآی‌تی مارکت</h1>
