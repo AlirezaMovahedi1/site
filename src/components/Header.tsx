@@ -14,17 +14,15 @@ export default function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo}>
-          <svg viewBox="0 0 100 120" className={styles.logoIcon} fill="currentColor">
-            {/* Top-Left Triangle */}
-            <polygon points="18,28 49,10 49,46" />
-            {/* Top-Right Triangle */}
-            <polygon points="82,28 51,10 51,46" />
-            {/* Middle Parallelogram (Thicker, smaller gaps) */}
-            <polygon points="18,30 82,67 82,93 18,56" />
-            {/* Bottom-Left Triangle */}
-            <polygon points="18,94 49,112 49,76" />
-            {/* Bottom-Right Triangle */}
-            <polygon points="82,95 51,113 51,77" />
+          <svg viewBox="0 0 126 160" className={styles.logoIcon}>
+            <path d="M23 25L60.5 3.34937L60.5 46.6506L23 25Z" fill="currentColor" />
+            <path d="M60.6506 53.5L60.6506 96.8013L23.1506 75.1506L60.6506 53.5Z" fill="currentColor" />
+            <path d="M101.5 24.6506L64 46.3013V3L101.5 24.6506Z" fill="currentColor" />
+            <path d="M64.6506 53.5L102.151 75.1506L64.6506 96.8013L64.6506 53.5Z" fill="currentColor" />
+            <path d="M103.651 78.5L103.651 121.801L66.1506 100.151L103.651 78.5Z" fill="currentColor" />
+            <path d="M60.6506 103.5L60.6506 146.801L23.1506 125.151L60.6506 103.5Z" fill="currentColor" />
+            <path d="M64.6506 103.5L102.151 125.151L64.6506 146.801L64.6506 103.5Z" fill="currentColor" />
+            <path d="M21.6506 28.5L59.1506 50.1506L21.6506 71.8013L21.6506 28.5Z" fill="currentColor" />
           </svg>
           <div className={styles.logoText}>
             <h1>سیدآی‌تی مارکت</h1>
