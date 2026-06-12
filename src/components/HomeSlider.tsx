@@ -8,34 +8,29 @@ import styles from './HomeSlider.module.css';
 interface Slide {
   id: number;
   image: string;
-  title: string;
-  subtitle: string;
   link: string;
-  buttonText: string;
+  title: string;
 }
 
 const slides: Slide[] = [
   {
     id: 1,
     image: '/images/hardware_banner.png',
-    title: 'سخت‌افزار صنعتی و تجهیزات تخصصی IT',
-    subtitle: 'ارائه‌دهنده معتبر لپ‌تاپ‌های مهندسی ThinkPad، اسکنرهای Suprema و قطعات شبکه اورجینال',
     link: '/products?category=hardware-equipment',
-    buttonText: 'مشاهده سخت‌افزارها',
+    title: 'سخت‌افزار صنعتی و تجهیزات تخصصی IT',
   },
   {
     id: 2,
     image: '/images/software_banner.png',
-    title: 'لایسنس‌های نرم‌افزاری و آنتی‌ویروس اورجینال',
-    subtitle: 'تضمین اصالت ۱۰۰٪، نصب و راه‌اندازی رایگان و پشتیبانی فنی ۲۴ ساعته',
     link: '/products?category=software-licenses',
-    buttonText: 'مشاهده لایسنس‌ها',
+    title: 'لایسنس‌های نرم‌افزاری و آنتی‌ویروس اورجینال',
   },
 ];
 
 export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
   const [startX, setStartX] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [wasDragged, setWasDragged] = useState(false);
 
@@ -55,26 +50,27 @@ export default function HomeSlider() {
 
   const handleMove = (clientX: number) => {
     if (!isDragging || startX === null) return;
-    const diff = startX - clientX;
+    const diff = clientX - startX;
+    setDragOffset(diff);
     
-    // If user dragged more than 5px, mark as dragged to prevent link click navigation
-    if (Math.abs(diff) > 5) {
+    if (Math.abs(diff) > 8) {
       setWasDragged(true);
-    }
-
-    // Swipe threshold of 60px
-    if (diff > 60) {
-      nextSlide();
-      handleEnd();
-    } else if (diff < -60) {
-      prevSlide();
-      handleEnd();
     }
   };
 
   const handleEnd = () => {
-    setStartX(null);
+    if (!isDragging) return;
+    
+    // Swipe threshold of 100px
+    if (dragOffset < -100) {
+      nextSlide();
+    } else if (dragOffset > 100) {
+      prevSlide();
+    }
+    
+    setDragOffset(0);
     setIsDragging(false);
+    setStartX(null);
   };
 
   const handleLinkClick = (e: React.MouseEvent) => {
@@ -84,9 +80,14 @@ export default function HomeSlider() {
   };
 
   useEffect(() => {
+    if (isDragging) return; // Pause autoplay when dragging
     const timer = setInterval(nextSlide, 6000);
     return () => clearInterval(timer);
-  }, [nextSlide]);
+  }, [nextSlide, isDragging]);
+
+  // Flex percentage shift (for 2 slides, each takes 50% width of the 200% track)
+  const trackTransform = `translate3d(calc(-${current * 50}% + ${dragOffset}px), 0, 0)`;
+  const trackTransition = isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
 
   return (
     <div 
@@ -99,27 +100,32 @@ export default function HomeSlider() {
       onMouseUp={handleEnd}
       onMouseLeave={handleEnd}
     >
-      {slides.map((slide, index) => (
-        <Link
-          key={slide.id}
-          href={slide.link}
-          onClick={handleLinkClick}
-          className={`${styles.slide} ${index === current ? styles.active : ''} ${styles.slideLink}`}
-        >
-          <div className={styles.imageWrapper}>
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              priority={index === 0}
-              className={styles.image}
-              sizes="100vw"
-            />
-          </div>
-        </Link>
-      ))}
-
-
+      <div 
+        className={styles.sliderTrack} 
+        style={{ transform: trackTransform, transition: trackTransition }}
+      >
+        {slides.map((slide) => (
+          <Link
+            key={slide.id}
+            href={slide.link}
+            onClick={handleLinkClick}
+            className={styles.slide}
+            draggable={false}
+          >
+            <div className={styles.imageWrapper}>
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                priority={slide.id === 1}
+                className={styles.image}
+                sizes="100vw"
+                draggable={false}
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
 
       {/* Dot Indicators */}
       <div className={styles.dots}>
