@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './HomeSlider.module.css';
 
 interface Slide {
@@ -41,9 +40,7 @@ export default function HomeSlider() {
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   }, []);
 
-  const prevSlide = () => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 6000);
@@ -80,13 +77,7 @@ export default function HomeSlider() {
         </div>
       ))}
 
-      {/* Navigation Arrows */}
-      <button className={styles.arrowLeft} onClick={prevSlide} aria-label="اسلاید قبلی">
-        <ChevronRight size={24} />
-      </button>
-      <button className={styles.arrowRight} onClick={nextSlide} aria-label="اسلاید بعدی">
-        <ChevronLeft size={24} />
-      </button>
+
 
       {/* Dot Indicators */}
       <div className={styles.dots}>
