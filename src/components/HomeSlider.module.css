@@ -4,6 +4,13 @@
   height: 520px;
   overflow: hidden;
   background-color: #0f172a;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sliderDragging {
+  cursor: grabbing;
 }
 
 .slide {
@@ -35,6 +42,7 @@
 .image {
   object-fit: cover;
   object-position: center;
+  pointer-events: none;
 }
 
 .overlay {

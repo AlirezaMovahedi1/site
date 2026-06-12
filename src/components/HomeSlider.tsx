@@ -35,12 +35,40 @@ const slides: Slide[] = [
 
 export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
+  const [startX, setStartX] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
   }, []);
 
+  const prevSlide = useCallback(() => {
+    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  }, []);
 
+  const handleStart = (clientX: number) => {
+    setStartX(clientX);
+    setIsDragging(true);
+  };
+
+  const handleMove = (clientX: number) => {
+    if (!isDragging || startX === null) return;
+    const diff = startX - clientX;
+    
+    // Swipe threshold of 60px
+    if (diff > 60) {
+      nextSlide();
+      handleEnd();
+    } else if (diff < -60) {
+      prevSlide();
+      handleEnd();
+    }
+  };
+
+  const handleEnd = () => {
+    setStartX(null);
+    setIsDragging(false);
+  };
 
   useEffect(() => {
     const timer = setInterval(nextSlide, 6000);
@@ -48,7 +76,16 @@ export default function HomeSlider() {
   }, [nextSlide]);
 
   return (
-    <div className={styles.slider}>
+    <div 
+      className={`${styles.slider} ${isDragging ? styles.sliderDragging : ''}`}
+      onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+      onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+      onTouchEnd={handleEnd}
+      onMouseDown={(e) => handleStart(e.clientX)}
+      onMouseMove={(e) => handleMove(e.clientX)}
+      onMouseUp={handleEnd}
+      onMouseLeave={handleEnd}
+    >
       {slides.map((slide, index) => (
         <div
           key={slide.id}
