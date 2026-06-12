@@ -37,6 +37,7 @@ export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
   const [startX, setStartX] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [wasDragged, setWasDragged] = useState(false);
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -49,12 +50,18 @@ export default function HomeSlider() {
   const handleStart = (clientX: number) => {
     setStartX(clientX);
     setIsDragging(true);
+    setWasDragged(false);
   };
 
   const handleMove = (clientX: number) => {
     if (!isDragging || startX === null) return;
     const diff = startX - clientX;
     
+    // If user dragged more than 5px, mark as dragged to prevent link click navigation
+    if (Math.abs(diff) > 5) {
+      setWasDragged(true);
+    }
+
     // Swipe threshold of 60px
     if (diff > 60) {
       nextSlide();
@@ -68,6 +75,12 @@ export default function HomeSlider() {
   const handleEnd = () => {
     setStartX(null);
     setIsDragging(false);
+  };
+
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (wasDragged) {
+      e.preventDefault();
+    }
   };
 
   useEffect(() => {
@@ -87,9 +100,11 @@ export default function HomeSlider() {
       onMouseLeave={handleEnd}
     >
       {slides.map((slide, index) => (
-        <div
+        <Link
           key={slide.id}
-          className={`${styles.slide} ${index === current ? styles.active : ''}`}
+          href={slide.link}
+          onClick={handleLinkClick}
+          className={`${styles.slide} ${index === current ? styles.active : ''} ${styles.slideLink}`}
         >
           <div className={styles.imageWrapper}>
             <Image
@@ -101,17 +116,7 @@ export default function HomeSlider() {
               sizes="100vw"
             />
           </div>
-          <div className={styles.overlay}></div>
-          <div className={`container ${styles.slideContainer}`}>
-            <div className={styles.content}>
-              <h2 className={styles.title}>{slide.title}</h2>
-              <p className={styles.subtitle}>{slide.subtitle}</p>
-              <Link href={slide.link} className={styles.ctaButton}>
-                {slide.buttonText}
-              </Link>
-            </div>
-          </div>
-        </div>
+        </Link>
       ))}
 
 
