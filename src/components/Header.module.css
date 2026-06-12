@@ -5,6 +5,15 @@
   top: 0;
   z-index: 100;
   box-shadow: var(--card-shadow);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header.hidden {
+  transform: translateY(-100%);
+}
+
+.header.visible {
+  transform: translateY(0);
 }
 
 .headerContainer {
@@ -22,13 +31,9 @@
 
 .logoIcon {
   color: var(--accent);
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   transition: var(--transition);
-}
-
-.logo:hover .logoIcon {
-  transform: rotate(-10deg) scale(1.1);
 }
 
 .logoText h1 {
