@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 64px;
 }
 
 .logo {
@@ -131,7 +131,7 @@
 
 @media (max-width: 768px) {
   .headerContainer {
-    height: 70px;
+    height: 56px;
   }
   
   .nav {

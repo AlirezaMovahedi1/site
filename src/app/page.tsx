@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '../lib/prisma';
 import ProductCard from '../components/ProductCard';
+import HomeSlider from '../components/HomeSlider';
 import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock } from 'lucide-react';
 import styles from './page.module.css';
 
@@ -19,27 +20,8 @@ export default async function Home() {
 
   return (
     <div className={styles.home}>
-      {/* Hero Section */}
-      <section className={styles.hero}>
-        <div className={`container ${styles.heroContainer}`}>
-          <div className={styles.heroContent}>
-            <span className={styles.heroBadge}>تجهیزات و لایسنس‌های تخصصی IT</span>
-            <h2 className={styles.heroTitle}>سخت‌افزار صنعتی و لایسنس‌های اورجینال با سیدآی‌تی</h2>
-            <p className={styles.heroSubtitle}>
-              ارائه‌دهنده معتبر لپ‌تاپ‌های مهندسی ThinkPad، اسکنرهای بیومتریک اثر انگشت Suprema و لایسنس‌های قانونی ESET با ضمانت اصالت و پشتیبانی فنی ۲۴ ساعته.
-            </p>
-            <div className={styles.heroActions}>
-              <Link href="/products" className={styles.heroPrimaryBtn}>
-                مشاهده کاتالوگ محصولات
-              </Link>
-              <Link href="/blog" className={styles.heroSecondaryBtn}>
-                مقالات و وبلاگ آموزشی
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className={styles.heroOverlay}></div>
-      </section>
+      {/* Home Image Slideshow */}
+      <HomeSlider />
 
       {/* Trust Badges */}
       <section className={styles.features}>
