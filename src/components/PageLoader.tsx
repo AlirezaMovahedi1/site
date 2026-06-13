@@ -34,19 +34,67 @@ function PageLoaderContent() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Listen to pathname or search parameter changes for page transitions
+  // Intercept all routing navigations globally via click event delegation
   useEffect(() => {
-    // Skip the very first render trigger (initial site open)
-    if (isFirstRender.current) {
-      return;
-    }
+    if (isInitialLoad) return;
 
-    // Trigger loading state immediately over the target/new page
-    setIsLoading(true);
-    setIsFadingOut(false);
-    setActive(true);
+    const handleDocumentClick = (event: MouseEvent) => {
+      // Find closest anchor tag
+      const anchor = (event.target as Element).closest('a');
+      if (!anchor) return;
 
-    // Let the drawing logo run and then fade out, revealing the new page
+      const href = anchor.getAttribute('href');
+      if (!href) return;
+
+      // Ignore external domains
+      if (href.startsWith('http') && !href.startsWith(window.location.origin)) return;
+      
+      // Ignore anchor hashes
+      if (href.startsWith('#') || href.includes('#' + window.location.pathname)) return;
+      
+      // Ignore mailto, tel, javascript protocols
+      if (href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+
+      // Ignore target="_blank" links
+      if (anchor.target === '_blank') return;
+      
+      // Ignore click modifications (CMD, CTRL, Shift, Alt)
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      
+      // Ignore standard browser download anchors
+      if (anchor.hasAttribute('download')) return;
+
+      try {
+        const targetUrl = new URL(anchor.href);
+        const currentUrl = new URL(window.location.href);
+        // If they click the link of the exact page they are currently on, don't show loading overlay
+        if (targetUrl.pathname === currentUrl.pathname && targetUrl.search === currentUrl.search) {
+          return;
+        }
+      } catch (err) {
+        if (href === window.location.pathname + window.location.search) {
+          return;
+        }
+      }
+
+      // Transition is starting -> display blurred loader immediately on the current page
+      setIsLoading(true);
+      setIsFadingOut(false);
+      setActive(true);
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isInitialLoad]);
+
+  // Turn off loading once pathname or search parameter transitions complete
+  useEffect(() => {
+    if (isInitialLoad || !isLoading) return;
+
+    // We have arrived at the target page!
+    // Keep the blur visible over the target page for 400ms to let it settle
     const timer = setTimeout(() => {
       setIsFadingOut(true);
       const closeTimer = setTimeout(() => {
@@ -55,10 +103,10 @@ function PageLoaderContent() {
         setIsFadingOut(false);
       }, 300); // match transition fade-out CSS duration
       return () => clearTimeout(closeTimer);
-    }, 600); // display blurred transition overlay for 600ms on new page
+    }, 400);
 
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, isInitialLoad, isLoading]);
 
   if (!mounted || !active) return null;
 
