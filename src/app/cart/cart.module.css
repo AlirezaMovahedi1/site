@@ -239,7 +239,7 @@
 .checkoutBtn:hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(245, 166, 35, 0.25);
+  box-shadow: 0 4px 15px var(--accent-shadow-heavy);
 }
 
 .continueShopping {

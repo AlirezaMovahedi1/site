@@ -104,7 +104,7 @@
   border-color: var(--accent);
   color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.15);
+  box-shadow: 0 4px 12px var(--accent-shadow);
 }
 
 .cartIcon {

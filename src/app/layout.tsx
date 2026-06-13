@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { CartProvider } from '../context/CartContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import PageLoader from '../components/PageLoader';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <CartProvider>
+          <PageLoader />
           <Header />
           <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {children}

@@ -6,7 +6,7 @@
 .hero {
   position: relative;
   background-color: var(--bg-secondary);
-  background-image: radial-gradient(circle at 10% 20%, rgba(245, 166, 35, 0.05) 0%, transparent 40%);
+  background-image: radial-gradient(circle at 10% 20%, var(--accent-radial) 0%, transparent 40%);
   padding: 100px 0;
   border-bottom: 1px solid var(--border-color);
   overflow: hidden;
@@ -29,7 +29,7 @@
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 700;
-  border: 1px solid rgba(245, 166, 35, 0.2);
+  border: 1px solid var(--accent-border-light);
   margin-bottom: 24px;
 }
 
@@ -67,7 +67,7 @@
 .heroPrimaryBtn:hover {
   background-color: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(245, 166, 35, 0.25);
+  box-shadow: 0 4px 15px var(--accent-shadow-heavy);
 }
 
 .heroSecondaryBtn {

@@ -1,0 +1,87 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  pointer-events: all;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: visible;
+}
+
+/* Initial Hydration Load: Solid Theme Background */
+.overlayInitial {
+  background-color: var(--bg-primary);
+}
+
+/* Page Transitions: Blurred Transparent Background */
+.overlayTransition {
+  background-color: rgba(248, 250, 252, 0.45); /* Transparent Light Mode Overlay */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Dark Mode Page Transitions: Dark Transparent Blurred Overlay */
+[data-theme="dark"] .overlayTransition {
+  background-color: rgba(10, 25, 47, 0.45);
+}
+
+/* Fade Out State */
+.fadeOut {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* base SVG configurations */
+.loader { 
+  display: block; 
+  width: 100px; 
+  height: 135px; 
+  color: #d2ddf2; /* Light Mode: Brand Color */
+}
+
+[data-theme="dark"] .loader {
+  color: var(--accent); /* Dark Mode: Accent Color (Blue) */
+}
+
+.loader polygon {
+  transform-box: fill-box;
+  transform-origin: center;
+  fill: currentColor; 
+  fill-opacity: 0;
+  stroke: currentColor; 
+  stroke-width: 2.5; 
+  stroke-linejoin: round;
+  stroke-dasharray: 130; 
+  stroke-dashoffset: 130;
+  animation: draw 2.4s ease infinite both; 
+  animation-delay: calc(var(--i) * 0.15s - 2.4s);
+}
+
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 130;
+    fill-opacity: 0;
+  }
+  25% {
+    stroke-dashoffset: 0;
+    fill-opacity: 0;
+  }
+  42% {
+    fill-opacity: 1;
+  }
+  78% {
+    fill-opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 130;
+    fill-opacity: 0;
+  }
+}
