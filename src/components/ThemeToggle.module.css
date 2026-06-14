@@ -15,10 +15,4 @@
 .toggleBtn:hover {
   border-color: var(--accent);
   color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
-}
-
-[data-theme="dark"] .toggleBtn:hover {
-  box-shadow: 0 4px 12px var(--accent-shadow);
 }

@@ -238,8 +238,6 @@
 
 .checkoutBtn:hover {
   background-color: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--accent-shadow-heavy);
 }
 
 .continueShopping {
@@ -306,7 +304,6 @@
 
 .shopBtn:hover {
   background-color: var(--accent-hover);
-  transform: translateY(-2px);
 }
 
 @media (max-width: 992px) {

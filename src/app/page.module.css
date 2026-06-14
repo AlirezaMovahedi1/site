@@ -66,8 +66,6 @@
 
 .heroPrimaryBtn:hover {
   background-color: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--accent-shadow-heavy);
 }
 
 .heroSecondaryBtn {
@@ -84,7 +82,6 @@
 .heroSecondaryBtn:hover {
   border-color: var(--accent);
   color: var(--accent);
-  transform: translateY(-2px);
 }
 
 .features {
@@ -195,8 +192,6 @@
 
 .categoryCard:hover {
   border-color: var(--accent);
-  box-shadow: var(--card-shadow);
-  transform: translateY(-5px);
 }
 
 .categoryIconWrapper {
@@ -255,8 +250,6 @@
 
 .blogCard:hover {
   border-color: var(--accent);
-  box-shadow: var(--card-shadow);
-  transform: translateY(-5px);
 }
 
 .blogImageWrapper {
