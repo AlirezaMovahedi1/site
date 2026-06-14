@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, ChevronDown } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import styles from './Header.module.css';
 
@@ -54,7 +54,21 @@ export default function Header() {
         <nav className={styles.nav}>
           <Link href="/" className={styles.navLink}>خانه</Link>
           <Link href="/products" className={styles.navLink}>محصولات</Link>
-          <Link href="/blog" className={styles.navLink}>وبلاگ آموزشی</Link>
+          <Link href="/tax-tools" className={styles.navLink}>ابزارهای مالیاتی</Link>
+          <Link href="/training" className={styles.navLink}>آموزش</Link>
+          <div className={styles.navDropdownContainer}>
+            <button className={styles.dropdownToggle}>
+              <span>خدمات سازمانی</span>
+              <ChevronDown size={14} className={styles.chevronIcon} />
+            </button>
+            <div className={styles.dropdownMenu}>
+              <Link href="/services/server-rack" className={styles.dropdownItem}>خدمات سرور و رک</Link>
+              <Link href="/services/web-design" className={styles.dropdownItem}>طراحی سایت</Link>
+              <Link href="/services/it-support" className={styles.dropdownItem}>پشتیبانی آی تی</Link>
+            </div>
+          </div>
+          <Link href="/blog" className={styles.navLink}>وبلاگ</Link>
+          <Link href="/contact" className={styles.navLink}>تماس با ما</Link>
         </nav>
 
         <div className={styles.actions} style={{ gap: '12px', display: 'flex', alignItems: 'center' }}>
