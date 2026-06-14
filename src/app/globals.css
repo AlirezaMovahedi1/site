@@ -108,3 +108,9 @@ button, input, textarea, select {
   padding: 0 24px;
   width: 100%;
 }
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px;
+  }
+}

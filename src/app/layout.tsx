@@ -3,6 +3,7 @@ import { CartProvider } from '../context/CartContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PageLoader from '../components/PageLoader';
+import MobileNav from '../components/MobileNav';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <MobileNav />
         </CartProvider>
       </body>
     </html>
