@@ -11,7 +11,7 @@ export const metadata = {
 interface SearchParams {
   search?: string;
   category?: string;
-  type?: string;
+  sort?: string;
 }
 
 export default async function ProductsPage({
@@ -22,7 +22,7 @@ export default async function ProductsPage({
   const params = await searchParams;
   const searchQuery = params.search || '';
   const categorySlug = params.category || '';
-  const productType = params.type || '';
+  const sort = params.sort || 'default';
 
   // Get categories for filter list
   const categories = await prisma.category.findMany();
@@ -41,12 +41,23 @@ export default async function ProductsPage({
     whereClause.category = { slug: categorySlug };
   }
 
-  if (productType) {
-    whereClause.type = productType;
+  // Determine ordering
+  let orderByClause: any = {};
+  if (sort === 'newest') {
+    orderByClause = { id: 'desc' };
+  } else if (sort === 'price-desc') {
+    orderByClause = { price: 'desc' };
+  } else if (sort === 'price-asc') {
+    orderByClause = { price: 'asc' };
+  } else if (sort === 'popular') {
+    orderByClause = { rating: 'desc' };
+  } else {
+    orderByClause = { id: 'asc' };
   }
 
   const products = await prisma.product.findMany({
     where: whereClause,
+    orderBy: orderByClause,
     include: {
       category: true,
     },
@@ -54,10 +65,67 @@ export default async function ProductsPage({
 
   return (
     <div className={`container ${styles.page}`}>
-      <header className={styles.header}>
-        <h2 className={styles.pageTitle}>کاتالوگ محصولات سیدآی‌تی</h2>
-        <p className={styles.pageSubtitle}>ارائه سخت‌افزار صنعتی باکیفیت و لایسنس‌های نرم‌افزاری معتبر</p>
-      </header>
+      <div className={styles.sortBar}>
+        <div className={styles.sortLabel}>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            className={styles.sortIcon}
+          >
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="9" y1="12" x2="20" y2="12" />
+            <line x1="14" y1="18" x2="20" y2="18" />
+          </svg>
+          <span>مرتب سازی بر اساس</span>
+        </div>
+        <div className={styles.sortOptions}>
+          <a
+            href={`/products?sort=default${categorySlug ? `&category=${categorySlug}` : ''}${
+              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+            }`}
+            className={`${styles.sortChip} ${sort === 'default' ? styles.sortChipActive : ''}`}
+          >
+            پیش‌فرض
+          </a>
+          <a
+            href={`/products?sort=newest${categorySlug ? `&category=${categorySlug}` : ''}${
+              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+            }`}
+            className={`${styles.sortChip} ${sort === 'newest' ? styles.sortChipActive : ''}`}
+          >
+            جدیدترین
+          </a>
+          <a
+            href={`/products?sort=price-desc${categorySlug ? `&category=${categorySlug}` : ''}${
+              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+            }`}
+            className={`${styles.sortChip} ${sort === 'price-desc' ? styles.sortChipActive : ''}`}
+          >
+            بیشترین قیمت
+          </a>
+          <a
+            href={`/products?sort=price-asc${categorySlug ? `&category=${categorySlug}` : ''}${
+              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+            }`}
+            className={`${styles.sortChip} ${sort === 'price-asc' ? styles.sortChipActive : ''}`}
+          >
+            کمترین قیمت
+          </a>
+          <a
+            href={`/products?sort=popular${categorySlug ? `&category=${categorySlug}` : ''}${
+              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
+            }`}
+            className={`${styles.sortChip} ${sort === 'popular' ? styles.sortChipActive : ''}`}
+          >
+            پرفروش‌ترین
+          </a>
+        </div>
+      </div>
 
       <div className={styles.contentLayout}>
         {/* Sidebar filters */}
@@ -73,7 +141,7 @@ export default async function ProductsPage({
                 className={styles.searchInput}
               />
               {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
-              {productType && <input type="hidden" name="type" value={productType} />}
+              {sort && sort !== 'default' && <input type="hidden" name="sort" value={sort} />}
               <button type="submit" className={styles.searchBtn}>اعمال</button>
             </form>
           </div>
@@ -81,14 +149,19 @@ export default async function ProductsPage({
           <div className={styles.filterGroup}>
             <h4 className={styles.filterTitle}>دسته‌بندی‌ها</h4>
             <div className={styles.filterLinks}>
-              <a href="/products" className={!categorySlug ? styles.activeLink : ''}>
+              <a
+                href={`/products${sort && sort !== 'default' ? `?sort=${sort}` : ''}${
+                  searchQuery ? `${sort && sort !== 'default' ? '&' : '?'}search=${encodeURIComponent(searchQuery)}` : ''
+                }`}
+                className={!categorySlug ? styles.activeLink : ''}
+              >
                 همه دسته‌ها
               </a>
               {categories.map((cat) => (
                 <a
                   key={cat.id}
-                  href={`/products?category=${cat.slug}${productType ? `&type=${productType}` : ''}${
-                    searchQuery ? `&search=${searchQuery}` : ''
+                  href={`/products?category=${cat.slug}${sort && sort !== 'default' ? `&sort=${sort}` : ''}${
+                    searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
                   }`}
                   className={categorySlug === cat.slug ? styles.activeLink : ''}
                 >
@@ -98,37 +171,7 @@ export default async function ProductsPage({
             </div>
           </div>
 
-          <div className={styles.filterGroup}>
-            <h4 className={styles.filterTitle}>نوع محصول</h4>
-            <div className={styles.filterLinks}>
-              <a
-                href={`/products${categorySlug ? `?category=${categorySlug}` : ''}${
-                  searchQuery ? `${categorySlug ? '&' : '?'}search=${searchQuery}` : ''
-                }`}
-                className={!productType ? styles.activeLink : ''}
-              >
-                همه محصولات
-              </a>
-              <a
-                href={`/products?type=PHYSICAL${categorySlug ? `&category=${categorySlug}` : ''}${
-                  searchQuery ? `&search=${searchQuery}` : ''
-                }`}
-                className={productType === 'PHYSICAL' ? styles.activeLink : ''}
-              >
-                سخت‌افزار فیزیکی
-              </a>
-              <a
-                href={`/products?type=DIGITAL${categorySlug ? `&category=${categorySlug}` : ''}${
-                  searchQuery ? `&search=${searchQuery}` : ''
-                }`}
-                className={productType === 'DIGITAL' ? styles.activeLink : ''}
-              >
-                دانلود آنی / دیجیتال
-              </a>
-            </div>
-          </div>
-
-          {(searchQuery || categorySlug || productType) && (
+          {(searchQuery || categorySlug || (sort && sort !== 'default')) && (
             <a href="/products" className={styles.clearFiltersBtn}>
               حذف همه فیلترها
             </a>
