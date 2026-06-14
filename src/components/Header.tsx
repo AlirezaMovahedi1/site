@@ -52,10 +52,19 @@ export default function Header() {
         </Link>
 
         <nav className={styles.nav}>
-          <Link href="/" className={styles.navLink}>خانه</Link>
           <Link href="/products" className={styles.navLink}>محصولات</Link>
           <Link href="/tax-tools" className={styles.navLink}>ابزارهای مالیاتی</Link>
-          <Link href="/training" className={styles.navLink}>آموزش</Link>
+          <div className={styles.navDropdownContainer}>
+            <button className={styles.dropdownToggle}>
+              <span>آموزش</span>
+              <ChevronDown size={14} className={styles.chevronIcon} />
+            </button>
+            <div className={styles.dropdownMenu}>
+              <Link href="/training/activation-guide" className={styles.dropdownItem}>راهنمای نصب و فعال‌سازی</Link>
+              <Link href="/training/hardware-guides" className={styles.dropdownItem}>آموزش‌های تخصصی سخت‌افزار</Link>
+              <Link href="/training/tax-regulations" className={styles.dropdownItem}>مقالات و قوانین مالیاتی</Link>
+            </div>
+          </div>
           <div className={styles.navDropdownContainer}>
             <button className={styles.dropdownToggle}>
               <span>خدمات سازمانی</span>
