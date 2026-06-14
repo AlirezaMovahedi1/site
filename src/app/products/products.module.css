@@ -139,7 +139,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
 }
 
@@ -179,5 +179,70 @@
 @media (max-width: 992px) {
   .contentLayout {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .sidebar {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .filterGroup {
+    gap: 8px;
+  }
+
+  .filterTitle {
+    font-size: 0.88rem;
+    padding-bottom: 4px;
+    margin-bottom: 2px;
+  }
+
+  .filterLinks {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 8px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filterLinks::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .filterLinks::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .filterLinks::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+
+  .filterLinks a {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .filterLinks a:hover {
+    background-color: var(--accent-light);
+  }
+
+  .filterLinks a.activeLink {
+    border-right: 1px solid var(--accent);
+    border-color: var(--accent);
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }

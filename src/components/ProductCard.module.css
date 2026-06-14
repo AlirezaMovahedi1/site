@@ -164,3 +164,44 @@
   color: var(--bg-primary);
   transform: scale(1.05);
 }
+
+@media (max-width: 576px) {
+  .content {
+    padding: 12px;
+  }
+  .title {
+    font-size: 0.88rem;
+    height: 2.4rem;
+    margin-bottom: 6px;
+  }
+  .description {
+    font-size: 0.72rem;
+    margin-bottom: 12px;
+    height: 2.2rem;
+    line-height: 1.5;
+  }
+  .badge {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    gap: 4px;
+  }
+  .badgeContainer {
+    top: 8px;
+    right: 8px;
+  }
+  .price {
+    font-size: 1.05rem;
+  }
+  .currency {
+    font-size: 0.7rem;
+  }
+  .addToCartBtn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .footer {
+    padding-top: 10px;
+  }
+}
+
