@@ -106,6 +106,8 @@
 
 .searchInput {
   flex-grow: 1;
+  min-width: 0;
+  width: 100%;
   background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
