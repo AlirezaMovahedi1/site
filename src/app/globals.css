@@ -2,23 +2,29 @@
 
 :root {
   --font-primary: 'Vazirmatn', 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
+
   /* DEFAULT WHITE/LIGHT THEME */
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-tertiary: #f1f5f9;
-  --accent: #2563eb;          /* Premium Tech Blue */
-  --accent-hover: #1d4ed8;    /* Darker Blue */
+  --accent: #2563eb;
+  /* Premium Tech Blue */
+  --accent-hover: #1d4ed8;
+  /* Darker Blue */
   --accent-light: rgba(37, 99, 235, 0.06);
   --accent-shadow: rgba(37, 99, 235, 0.15);
   --accent-shadow-heavy: rgba(37, 99, 235, 0.25);
   --accent-shadow-btn: rgba(37, 99, 235, 0.3);
   --accent-radial: rgba(37, 99, 235, 0.05);
   --accent-border-light: rgba(37, 99, 235, 0.2);
-  --text-primary: #0f172a;    /* Deep Slate */
-  --text-secondary: #334155;  /* Charcoal Slate */
-  --text-muted: #64748b;     /* Muted Slate */
-  --border-color: #e2e8f0;    /* Light Gray Border */
+  --text-primary: #0f172a;
+  /* Deep Slate */
+  --text-secondary: #334155;
+  /* Charcoal Slate */
+  --text-muted: #64748b;
+  /* Muted Slate */
+  --border-color: #e2e8f0;
+  /* Light Gray Border */
   --success: #10b981;
   --error: #ef4444;
   --card-shadow: none;
@@ -30,14 +36,16 @@
   --bg-primary: #0a192f;
   --bg-secondary: #172a45;
   --bg-tertiary: #233554;
-  --accent: #2979ff;          /* Premium Tech Blue */
-  --accent-hover: #1565c0;    /* Darker Blue hover */
-  --accent-light: rgba(41, 121, 255, 0.1);
-  --accent-shadow: rgba(41, 121, 255, 0.15);
-  --accent-shadow-heavy: rgba(41, 121, 255, 0.25);
-  --accent-shadow-btn: rgba(41, 121, 255, 0.3);
-  --accent-radial: rgba(41, 121, 255, 0.05);
-  --accent-border-light: rgba(41, 121, 255, 0.2);
+  --accent: #3b82f6;
+  /* Premium Tech Blue (VS Code / Tailwind Trendy Blue) */
+  --accent-hover: #2563eb;
+  /* Darker Blue hover */
+  --accent-light: rgba(59, 130, 246, 0.1);
+  --accent-shadow: rgba(59, 130, 246, 0.15);
+  --accent-shadow-heavy: rgba(59, 130, 246, 0.25);
+  --accent-shadow-btn: rgba(59, 130, 246, 0.3);
+  --accent-radial: rgba(59, 130, 246, 0.05);
+  --accent-border-light: rgba(59, 130, 246, 0.2);
   --text-primary: #e6f1ff;
   --text-secondary: #8892b0;
   --text-muted: #4f5b76;
@@ -61,7 +69,8 @@ body {
   display: flex;
   flex-direction: column;
   line-height: 1.7;
-  direction: rtl; /* Persian RTL structure */
+  direction: rtl;
+  /* Persian RTL structure */
   text-align: right;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -74,7 +83,10 @@ a {
   transition: var(--transition);
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   font-family: var(--font-primary);
   outline: none;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -84,14 +96,17 @@ button, input, textarea, select {
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--bg-secondary);
   border: 3px solid var(--bg-primary);
   border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--bg-tertiary);
 }
