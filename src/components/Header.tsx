@@ -52,7 +52,30 @@ export default function Header() {
         </Link>
 
         <nav className={styles.nav}>
-          <Link href="/products" className={styles.navLink}>محصولات</Link>
+          <div className={styles.navDropdownContainer}>
+            <Link href="/products" className={styles.dropdownToggle}>
+              <span>فروشگاه</span>
+              <ChevronDown size={14} className={styles.chevronIcon} />
+            </Link>
+            <div className={styles.dropdownMenuGrid}>
+              <Link href="/products?category=fingerprint-scanner" className={styles.dropdownItem}>اسکنر اثر انگشت</Link>
+              <Link href="/products?category=signature-pad" className={styles.dropdownItem}>پد امضای دیجیتال</Link>
+              <Link href="/products?category=printer-scanner" className={styles.dropdownItem}>پرینتر و اسکنر</Link>
+              <Link href="/products?category=notary-office-equipment" className={styles.dropdownItem}>تجهیزات دفترخانه</Link>
+              <Link href="/products?category=security-token" className={styles.dropdownItem}>توکن امنیتی</Link>
+              <Link href="/products?category=copier-machine" className={styles.dropdownItem}>دستگاه کپی</Link>
+              <Link href="/products?category=digital-goods" className={styles.dropdownItem}>کالای دیجیتال</Link>
+              <Link href="/products?category=computer" className={styles.dropdownItem}>کامپیوتر</Link>
+              <Link href="/products?category=laptop" className={styles.dropdownItem}>لپ‌تاپ</Link>
+              <Link href="/products?category=network-cable" className={styles.dropdownItem}>کابل شبکه</Link>
+              <Link href="/products?category=hub" className={styles.dropdownItem}>هاب و سوئیچ</Link>
+              <Link href="/products?category=modem" className={styles.dropdownItem}>مودم و روتر</Link>
+              <Link href="/products?category=keyboard-mouse" className={styles.dropdownItem}>کیبورد و ماوس</Link>
+              <Link href="/products?category=webcam" className={styles.dropdownItem}>وبکم</Link>
+              <Link href="/products?category=software-licenses" className={styles.dropdownItem}>لایسنس نرم‌افزار</Link>
+              <Link href="/products?category=exam-samples" className={styles.dropdownItem}>نمونه سوالات</Link>
+            </div>
+          </div>
           <Link href="/tax-tools" className={styles.navLink}>ابزارهای مالیاتی</Link>
           <div className={styles.navDropdownContainer}>
             <button className={styles.dropdownToggle}>

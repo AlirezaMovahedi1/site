@@ -125,8 +125,28 @@
   z-index: 200;
 }
 
-.navDropdownContainer:hover .dropdownMenu {
+.dropdownMenuGrid {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: 380px;
+  padding: 12px;
+  z-index: 200;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+.navDropdownContainer:hover .dropdownMenu,
+.navDropdownContainer:hover .dropdownMenuGrid {
   display: block;
+}
+
+.navDropdownContainer:hover .dropdownMenuGrid {
+  display: grid;
 }
 
 .dropdownItem {
