@@ -185,10 +185,14 @@
   .sidebar {
     padding: 16px;
     gap: 16px;
+    width: 100%;
+    overflow: hidden;
   }
 
   .filterGroup {
     gap: 8px;
+    width: 100%;
+    overflow: hidden;
   }
 
   .filterTitle {

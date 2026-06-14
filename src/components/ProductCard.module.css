@@ -165,7 +165,7 @@
   transform: scale(1.05);
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .content {
     padding: 12px;
   }
