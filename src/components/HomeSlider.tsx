@@ -101,7 +101,7 @@ export default function HomeSlider() {
       }
     }
     
-    const slideTranslate = diff * 100 + dragOffsetPercent;
+    const slideTranslate = diff * 100.5 + dragOffsetPercent;
     const slideTransition = isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
     
     return {
@@ -155,6 +155,7 @@ export default function HomeSlider() {
                   className={`${styles.image} ${isActive && !isDragging ? styles.imageActive : ''}`}
                   sizes="100vw"
                   draggable={false}
+                  unoptimized
                 />
               </div>
             </Link>
