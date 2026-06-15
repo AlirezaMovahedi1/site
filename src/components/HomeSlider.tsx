@@ -15,13 +15,13 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: '/images/shop_banner.webp',
+    image: '/images/shop_banner_v2.webp',
     link: '/products',
     title: 'فروشگاه آنلاین سیدی آی‌تی',
   },
   {
     id: 2,
-    image: '/images/support_banner.webp',
+    image: '/images/support_banner_v2.webp',
     link: '/contact',
     title: 'پشتیبانی آنلاین تیم سیدی آی‌تی',
   },
