@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: Props) {
 
   if (!product) {
     return {
-      title: 'محصول یافت نشد | سیدی آی‌تی مارکت',
+      title: 'محصول یافت نشد | سیدی آی‌تی',
     };
   }
 
   return {
-    title: `${product.name} | سیدی آی‌تی مارکت`,
+    title: `${product.name} | سیدی آی‌تی`,
     description: product.description.substring(0, 160),
   };
 }

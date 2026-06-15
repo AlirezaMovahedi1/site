@@ -207,7 +207,7 @@ export default function CheckoutPage() {
             <p>پس از کلیک بر روی دکمه پرداخت، تراکنش شبیه‌سازی شده و سفارش شما ثبت می‌شود.</p>
             <div className={styles.secureBadge}>
               <ShieldCheck className={styles.secureIcon} />
-              <span>اتصال امن SSL - سیدی آی‌تی مارکت</span>
+              <span>اتصال امن SSL - سیدی آی‌تی</span>
             </div>
           </div>
 

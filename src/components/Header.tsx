@@ -46,8 +46,7 @@ export default function Header() {
             <polygon points="82,95 51,113 51,77" />
           </svg>
           <div className={styles.logoText}>
-            <h1>سیدی آی‌تی مارکت</h1>
-            <span>سخت‌افزار و لایسنس اورجینال</span>
+            <h1>سیدی آی‌تی</h1>
           </div>
         </Link>
 

@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
 
   if (!post) {
     return {
-      title: 'مقاله یافت نشد | سیدی آی‌تی مارکت',
+      title: 'مقاله یافت نشد | سیدی آی‌تی',
     };
   }
 

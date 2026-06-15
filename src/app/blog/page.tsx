@@ -6,8 +6,8 @@ import { Calendar, Clock, BookOpen } from 'lucide-react';
 import styles from './blog.module.css';
 
 export const metadata = {
-  title: 'وبلاگ آموزشی و مقالات | سیدی آی‌تی مارکت',
-  description: 'آخرین مقالات آموزشی، راهنمای خرید و بررسی‌های تخصصی سخت‌افزار، امنیت شبکه و بیومتریک در وبلاگ سیدی آی‌تی مارکت.',
+  title: 'وبلاگ آموزشی و مقالات | سیدی آی‌تی',
+  description: 'آخرین مقالات آموزشی، راهنمای خرید و بررسی‌های تخصصی سخت‌افزار، امنیت شبکه و بیومتریک در وبلاگ سیدی آی‌تی.',
 };
 
 export default async function BlogPage() {
