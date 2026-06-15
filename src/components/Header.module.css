@@ -25,14 +25,23 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .logoIcon {
-  color: var(--accent);
   width: 44px;
   height: 44px;
   transition: var(--transition);
+}
+
+.logoTriangle {
+  fill: var(--accent);
+  transition: fill 0.3s ease;
+}
+
+.logoDiagonal {
+  fill: var(--logo-diagonal);
+  transition: fill 0.3s ease;
 }
 
 .logoText h1 {

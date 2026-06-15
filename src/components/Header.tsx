@@ -33,17 +33,17 @@ export default function Header() {
     <header className={`${styles.header} ${visible ? styles.visible : styles.hidden}`}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo}>
-          <svg viewBox="0 0 100 120" className={styles.logoIcon} fill="currentColor">
+          <svg viewBox="0 0 100 120" className={styles.logoIcon}>
             {/* Top-Left Triangle */}
-            <polygon points="18,28 49,10 49,46" />
+            <polygon points="18,28 49,10 49,46" className={styles.logoTriangle} />
             {/* Top-Right Triangle */}
-            <polygon points="82,28 51,10 51,46" />
+            <polygon points="82,28 51,10 51,46" className={styles.logoTriangle} />
             {/* Middle Parallelogram (Thicker, smaller gaps) */}
-            <polygon points="18,30 82,67 82,93 18,56" />
+            <polygon points="18,30 82,67 82,93 18,56" className={styles.logoDiagonal} />
             {/* Bottom-Left Triangle */}
-            <polygon points="18,94 49,112 49,76" />
+            <polygon points="18,94 49,112 49,76" className={styles.logoTriangle} />
             {/* Bottom-Right Triangle */}
-            <polygon points="82,95 51,113 51,77" />
+            <polygon points="82,95 51,113 51,77" className={styles.logoTriangle} />
           </svg>
           <div className={styles.logoText}>
             <h1>سیدی آی‌تی</h1>

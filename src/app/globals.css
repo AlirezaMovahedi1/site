@@ -11,6 +11,7 @@
   /* Premium Tech Blue */
   --accent-hover: #1d4ed8;
   /* Darker Blue */
+  --logo-diagonal: #1e3a8a;
   --accent-light: rgba(37, 99, 235, 0.06);
   --accent-shadow: rgba(37, 99, 235, 0.15);
   --accent-shadow-heavy: rgba(37, 99, 235, 0.25);
@@ -40,6 +41,7 @@
   /* Premium Tech Blue (VS Code / Tailwind Trendy Blue) */
   --accent-hover: #2563eb;
   /* Darker Blue hover */
+  --logo-diagonal: #1d4ed8;
   --accent-light: rgba(59, 130, 246, 0.1);
   --accent-shadow: rgba(59, 130, 246, 0.15);
   --accent-shadow-heavy: rgba(59, 130, 246, 0.25);
