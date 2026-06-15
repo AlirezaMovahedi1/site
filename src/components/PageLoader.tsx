@@ -39,6 +39,9 @@ function PageLoaderContent() {
     if (isInitialLoad) return;
 
     const handleDocumentClick = (event: MouseEvent) => {
+      // Ignore clicks that have been prevented by other handlers (e.g. slider drags)
+      if (event.defaultPrevented) return;
+
       // Find closest anchor tag
       const anchor = (event.target as Element).closest('a');
       if (!anchor) return;
