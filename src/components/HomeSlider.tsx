@@ -27,23 +27,45 @@ const slides: Slide[] = [
   },
 ];
 
+const TRANSITION_DURATION = 600; // ms
+const TRANSITION_CSS = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 1, 0.5, 1)`;
+
 export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const prevIndexRef = useRef(0);
+
   const [startX, setStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [wasDragged, setWasDragged] = useState(false);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [sliderWidth, setSliderWidth] = useState(1200);
 
+  const goToSlide = useCallback((nextIndex: number) => {
+    if (isAnimating && !isDragging) return;
+    prevIndexRef.current = current;
+    setIsAnimating(true);
+    setCurrent(nextIndex);
+  }, [current, isAnimating, isDragging]);
+
   const nextSlide = useCallback(() => {
-    setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  }, []);
+    goToSlide(current === slides.length - 1 ? 0 : current + 1);
+  }, [current, goToSlide]);
 
   const prevSlide = useCallback(() => {
-    setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  }, []);
+    goToSlide(current === 0 ? slides.length - 1 : current - 1);
+  }, [current, goToSlide]);
+
+  // After transition finishes, clear animation flag so inactive slide snaps to waiting position
+  useEffect(() => {
+    if (!isAnimating) return;
+    const timer = setTimeout(() => {
+      setIsAnimating(false);
+    }, TRANSITION_DURATION + 50);
+    return () => clearTimeout(timer);
+  }, [isAnimating, current]);
 
   // Intercept native click events in capture phase to completely bypass PageLoader and router on drag
   useEffect(() => {
@@ -76,7 +98,7 @@ export default function HomeSlider() {
     if (!isDragging || startX === null) return;
     const diff = clientX - startX;
     setDragOffset(diff);
-    
+
     if (Math.abs(diff) > 8) {
       setWasDragged(true);
     }
@@ -84,14 +106,16 @@ export default function HomeSlider() {
 
   const handleEnd = () => {
     if (!isDragging) return;
-    
-    const threshold = sliderWidth * 0.15; // 15% width threshold for transitions
+
+    const threshold = sliderWidth * 0.15;
     if (dragOffset < -threshold) {
-      nextSlide();
-    } else if (dragOffset > threshold) {
+      // Dragged left → go to previous slide (slide enters from right)
       prevSlide();
+    } else if (dragOffset > threshold) {
+      // Dragged right → go to next slide (slide enters from left)
+      nextSlide();
     }
-    
+
     setDragOffset(0);
     setIsDragging(false);
     setStartX(null);
@@ -105,38 +129,65 @@ export default function HomeSlider() {
 
   const dragOffsetPercent = (dragOffset / sliderWidth) * 100;
 
-  const getSlideStyles = (index: number) => {
-    let diff = index - current;
-    
-    // With exactly 2 slides, position the inactive slide based on drag direction
-    if (diff !== 0) {
-      if (dragOffset > 0) {
-        // Dragging right -> show adjacent slide on the left
-        diff = 1;
-      } else {
-        // Dragging left or no drag -> show adjacent slide on the right
-        diff = -1;
+  const getSlideStyles = (index: number): { slide: React.CSSProperties; image: React.CSSProperties } => {
+    const isActive = index === current;
+    const wasActive = index === prevIndexRef.current;
+
+    // --- DRAGGING MODE ---
+    if (isDragging) {
+      let diff = index - current;
+      if (diff !== 0) {
+        // Position inactive slide based on drag direction
+        diff = dragOffset > 0 ? -1 : 1;
       }
+      return {
+        slide: {
+          transform: `translate3d(${diff * 100.5 + dragOffsetPercent}%, 0, 0)`,
+          transition: 'none',
+          zIndex: isActive ? 2 : 1,
+        },
+        image: { transform: 'none', transition: 'none' },
+      };
     }
-    
-    const slideTranslate = -diff * 100.5 + dragOffsetPercent;
-    const slideTransition = isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
-    
+
+    // --- ACTIVE SLIDE ---
+    if (isActive) {
+      return {
+        slide: {
+          transform: 'translate3d(0%, 0, 0)',
+          transition: TRANSITION_CSS,
+          zIndex: 2,
+        },
+        image: { transform: 'none', transition: 'none' },
+      };
+    }
+
+    // --- INACTIVE SLIDE DURING ANIMATION (leaving slide) ---
+    if (isAnimating && wasActive) {
+      // Leaving slide exits to the RIGHT
+      return {
+        slide: {
+          transform: 'translate3d(100.5%, 0, 0)',
+          transition: TRANSITION_CSS,
+          zIndex: 1,
+        },
+        image: { transform: 'none', transition: 'none' },
+      };
+    }
+
+    // --- INACTIVE SLIDE DEFAULT (waiting position: LEFT, no transition) ---
     return {
       slide: {
-        transform: `translate3d(${slideTranslate}%, 0, 0)`,
-        transition: slideTransition,
-        zIndex: index === current ? 2 : 1,
+        transform: 'translate3d(-100.5%, 0, 0)',
+        transition: 'none',
+        zIndex: 1,
       },
-      image: {
-        transform: 'none',
-        transition: slideTransition,
-      }
+      image: { transform: 'none', transition: 'none' },
     };
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={`${styles.slider} ${isDragging ? styles.sliderDragging : ''}`}
       onTouchStart={(e) => handleStart(e.touches[0].clientX)}
@@ -151,7 +202,7 @@ export default function HomeSlider() {
         {slides.map((slide, index) => {
           const isActive = index === current;
           const slideStyles = getSlideStyles(index);
-          
+
           return (
             <Link
               key={slide.id}
@@ -161,7 +212,7 @@ export default function HomeSlider() {
               style={slideStyles.slide}
               draggable={false}
             >
-              <div 
+              <div
                 className={styles.imageWrapper}
                 style={slideStyles.image}
               >
@@ -169,7 +220,7 @@ export default function HomeSlider() {
                   src={slide.image}
                   alt={slide.title}
                   fill
-                  priority={index === 0}
+                  priority
                   className={`${styles.image} ${isActive && !isDragging ? styles.imageActive : ''}`}
                   sizes="100vw"
                   draggable={false}
@@ -181,10 +232,10 @@ export default function HomeSlider() {
         })}
       </div>
 
-      {/* Sleek Autoplay Progress Bar */}
+      {/* Hidden Autoplay Timer (visual bar removed, autoplay logic preserved) */}
       <div className={styles.progressBarContainer}>
-        <div 
-          key={current} // Triggers recreation of node to reset CSS animation keyframe
+        <div
+          key={current}
           className={`${styles.progressBar} ${!isDragging ? styles.progressBarActive : styles.progressBarPaused}`}
           onAnimationEnd={nextSlide}
         />
@@ -196,7 +247,7 @@ export default function HomeSlider() {
           <button
             key={index}
             className={`${styles.dot} ${index === current ? styles.dotActive : ''}`}
-            onClick={() => setCurrent(index)}
+            onClick={() => goToSlide(index)}
             aria-label={`رفتن به اسلاید ${index + 1}`}
           />
         ))}
@@ -204,4 +255,3 @@ export default function HomeSlider() {
     </div>
   );
 }
-
