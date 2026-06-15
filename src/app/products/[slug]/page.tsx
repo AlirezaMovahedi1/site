@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: Props) {
 
   if (!product) {
     return {
-      title: 'محصول یافت نشد | سیدآی‌تی مارکت',
+      title: 'محصول یافت نشد | سیدی آی‌تی مارکت',
     };
   }
 
   return {
-    title: `${product.name} | سیدآی‌تی مارکت`,
+    title: `${product.name} | سیدی آی‌تی مارکت`,
     description: product.description.substring(0, 160),
   };
 }
@@ -135,7 +135,7 @@ export default async function ProductDetailsPage({ params }: Props) {
               <RefreshCw className={styles.featureIcon} />
               <div>
                 <h5>پشتیبانی فنی متخصصان</h5>
-                <p>پشتیبانی نصب، فعال‌سازی و راه‌اندازی توسط تیم پشتیبانی سیدآی‌تی</p>
+                <p>پشتیبانی نصب، فعال‌سازی و راه‌اندازی توسط تیم پشتیبانی سیدی آی‌تی</p>
               </div>
             </div>
           </div>

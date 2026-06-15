@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: Props) {
 
   if (!post) {
     return {
-      title: 'مقاله یافت نشد | سیدآی‌تی مارکت',
+      title: 'مقاله یافت نشد | سیدی آی‌تی مارکت',
     };
   }
 
   return {
-    title: `${post.title} | وبلاگ سیدآی‌تی`,
+    title: `${post.title} | وبلاگ سیدی آی‌تی`,
     description: post.summary,
   };
 }
@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className={styles.meta}>
             <div className={styles.metaItem}>
               <User size={16} />
-              <span>نویسنده: تیم فنی سیدآی‌تی</span>
+              <span>نویسنده: تیم فنی سیدی آی‌تی</span>
             </div>
             <div className={styles.metaItem}>
               <Calendar size={16} />

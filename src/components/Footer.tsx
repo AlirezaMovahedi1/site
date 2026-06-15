@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={`container ${styles.footerContainer}`}>
         <div className={styles.section}>
-          <h3 className={styles.title}>درباره سیدآی‌تی مارکت</h3>
+          <h3 className={styles.title}>درباره سیدی آی‌تی مارکت</h3>
           <p className={styles.desc}>
             مرجع تخصصی تهیه و ارائه سخت‌افزارهای صنعتی مقاوم، تجهیزات پیشرفته احراز هویت بیومتریک و لایسنس‌های اورجینال نرم‌افزاری. هدف ما تضمین کیفیت، امنیت و اصالت کالا برای سازمان‌ها و توسعه‌دهندگان است.
           </p>
@@ -54,7 +54,7 @@ export default function Footer() {
       </div>
       <div className={styles.copyright}>
         <div className="container">
-          <p>© {new Date().getFullYear()} سیدآی‌تی مارکت. تمامی حقوق مادی و معنوی محفوظ است.</p>
+          <p>© {new Date().getFullYear()} سیدی آی‌تی مارکت. تمامی حقوق مادی و معنوی محفوظ است.</p>
         </div>
       </div>
     </footer>

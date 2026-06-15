@@ -6,8 +6,8 @@ import { Calendar, Clock, BookOpen } from 'lucide-react';
 import styles from './blog.module.css';
 
 export const metadata = {
-  title: 'وبلاگ آموزشی و مقالات | سیدآی‌تی مارکت',
-  description: 'آخرین مقالات آموزشی، راهنمای خرید و بررسی‌های تخصصی سخت‌افزار، امنیت شبکه و بیومتریک در وبلاگ سیدآی‌تی مارکت.',
+  title: 'وبلاگ آموزشی و مقالات | سیدی آی‌تی مارکت',
+  description: 'آخرین مقالات آموزشی، راهنمای خرید و بررسی‌های تخصصی سخت‌افزار، امنیت شبکه و بیومتریک در وبلاگ سیدی آی‌تی مارکت.',
 };
 
 export default async function BlogPage() {
@@ -20,7 +20,7 @@ export default async function BlogPage() {
   return (
     <div className={`container ${styles.page}`}>
       <header className={styles.header}>
-        <h2 className={styles.pageTitle}>وبلاگ آموزشی سیدآی‌تی</h2>
+        <h2 className={styles.pageTitle}>وبلاگ آموزشی سیدی آی‌تی</h2>
         <p className={styles.pageSubtitle}>بروزترین مقالات تخصصی، راهنمای خرید سخت‌افزار و مطالب امنیت شبکه</p>
       </header>
 

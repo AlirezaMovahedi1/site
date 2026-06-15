@@ -4,8 +4,8 @@ import ProductCard from '../../components/ProductCard';
 import styles from './products.module.css';
 
 export const metadata = {
-  title: 'کاتالوگ محصولات | سیدآی‌تی مارکت',
-  description: 'لیست کامل محصولات سخت‌افزاری و نرم‌افزاری سیدآی‌تی مارکت شامل لپ‌تاپ‌های صنعتی لنوو ThinkPad، اسکنرهای اثر انگشت Suprema و لایسنس‌های آنتی‌ویروس.',
+  title: 'کاتالوگ محصولات | سیدی آی‌تی مارکت',
+  description: 'لیست کامل محصولات سخت‌افزاری و نرم‌افزاری سیدی آی‌تی مارکت شامل لپ‌تاپ‌های صنعتی لنوو ThinkPad، اسکنرهای اثر انگشت Suprema و لایسنس‌های آنتی‌ویروس.',
 };
 
 interface SearchParams {
