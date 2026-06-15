@@ -45,6 +45,24 @@ export default function HomeSlider() {
     setCurrent((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
   }, []);
 
+  // Intercept native click events in capture phase to completely bypass PageLoader and router on drag
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleNativeClick = (e: MouseEvent) => {
+      if (wasDragged) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    container.addEventListener('click', handleNativeClick, true);
+    return () => {
+      container.removeEventListener('click', handleNativeClick, true);
+    };
+  }, [wasDragged]);
+
   const handleStart = (clientX: number) => {
     if (containerRef.current) {
       setSliderWidth(containerRef.current.getBoundingClientRect().width);
@@ -94,14 +112,14 @@ export default function HomeSlider() {
     if (diff !== 0) {
       if (dragOffset > 0) {
         // Dragging right -> show adjacent slide on the left
-        diff = 1;
+        diff = -1;
       } else {
         // Dragging left or no drag -> show adjacent slide on the right
-        diff = -1;
+        diff = 1;
       }
     }
     
-    const slideTranslate = -diff * 100.5 + dragOffsetPercent;
+    const slideTranslate = diff * 100.5 + dragOffsetPercent;
     const slideTransition = isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
     
     return {
