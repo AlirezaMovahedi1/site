@@ -21,7 +21,9 @@ export default async function Home() {
   return (
     <div className={styles.home}>
       {/* Home Image Slideshow */}
-      <HomeSlider />
+      <div className="container" style={{ marginTop: '24px', marginBottom: '8px' }}>
+        <HomeSlider />
+      </div>
 
       {/* Trust Badges */}
       <section className={styles.features}>
