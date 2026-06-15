@@ -15,15 +15,15 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: '/images/hardware_banner.png',
-    link: '/products?category=hardware-equipment',
-    title: 'سخت‌افزار صنعتی و تجهیزات تخصصی IT',
+    image: '/images/shop_banner.webp',
+    link: '/products',
+    title: 'فروشگاه آنلاین سیدی آی‌تی',
   },
   {
     id: 2,
-    image: '/images/software_banner.png',
-    link: '/products?category=software-licenses',
-    title: 'لایسنس‌های نرم‌افزاری و آنتی‌ویروس اورجینال',
+    image: '/images/support_banner.webp',
+    link: '/contact',
+    title: 'پشتیبانی آنلاین تیم سیدی آی‌تی',
   },
 ];
 
