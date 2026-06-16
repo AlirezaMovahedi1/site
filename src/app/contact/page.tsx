@@ -70,22 +70,7 @@ export default function ContactPage() {
                 ۰۲۱-۸۸۸۸XXXX
               </a>
 
-              <div className={styles.phoneGridDetails}>
-                <div className={styles.detailItem}>
-                  <Clock size={18} className={styles.detailIcon} />
-                  <div>
-                    <strong>ساعات پاسخگویی</strong>
-                    <p>شنبه تا چهارشنبه ۹ تا ۱۷ | پنجشنبه ۹ تا ۱۳</p>
-                  </div>
-                </div>
-                <div className={styles.detailItem}>
-                  <ShieldCheck size={18} className={styles.detailIcon} />
-                  <div>
-                    <strong>مشاوره تخصصی رایگان</strong>
-                    <p>راهنمایی خرید تجهیزات و راه‌اندازی زیرساخت فنی</p>
-                  </div>
-                </div>
-              </div>
+
 
               <a href="tel:0218888XXXX" className={styles.callActionButton}>
                 <PhoneCall size={18} />
