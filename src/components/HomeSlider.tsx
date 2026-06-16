@@ -34,6 +34,7 @@ export default function HomeSlider() {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const prevIndexRef = useRef(0);
+  const directionRef = useRef<'forward' | 'backward'>('forward');
 
   const [startX, setStartX] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState(0);
@@ -43,19 +44,20 @@ export default function HomeSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [sliderWidth, setSliderWidth] = useState(1200);
 
-  const goToSlide = useCallback((nextIndex: number) => {
+  const goToSlide = useCallback((nextIndex: number, direction: 'forward' | 'backward' = 'forward') => {
     if (isAnimating && !isDragging) return;
     prevIndexRef.current = current;
+    directionRef.current = direction;
     setIsAnimating(true);
     setCurrent(nextIndex);
   }, [current, isAnimating, isDragging]);
 
   const nextSlide = useCallback(() => {
-    goToSlide(current === slides.length - 1 ? 0 : current + 1);
+    goToSlide(current === slides.length - 1 ? 0 : current + 1, 'forward');
   }, [current, goToSlide]);
 
   const prevSlide = useCallback(() => {
-    goToSlide(current === 0 ? slides.length - 1 : current - 1);
+    goToSlide(current === 0 ? slides.length - 1 : current - 1, 'backward');
   }, [current, goToSlide]);
 
   // After transition finishes, clear animation flag so inactive slide snaps to waiting position
@@ -164,10 +166,11 @@ export default function HomeSlider() {
 
     // --- INACTIVE SLIDE DURING ANIMATION (leaving slide) ---
     if (isAnimating && wasActive) {
-      // Leaving slide exits to the RIGHT
+      // Forward: leaving slide exits RIGHT / Backward: leaving slide exits LEFT
+      const exitTranslate = directionRef.current === 'forward' ? '100.5%' : '-100.5%';
       return {
         slide: {
-          transform: 'translate3d(100.5%, 0, 0)',
+          transform: `translate3d(${exitTranslate}, 0, 0)`,
           transition: TRANSITION_CSS,
           zIndex: 1,
         },
