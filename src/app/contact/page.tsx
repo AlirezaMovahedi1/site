@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { PhoneCall, MessageSquare, Send, CheckCircle2, ChevronDown, Clock, ShieldCheck } from 'lucide-react';
+import { PhoneCall, MessageSquare, Send, CheckCircle2, ChevronDown, Clock, ShieldCheck, MapPin, Mail, Users } from 'lucide-react';
 import styles from './contact.module.css';
 
 export default function ContactPage() {
@@ -56,39 +56,71 @@ export default function ContactPage() {
       <section className={styles.mainSection}>
         <div className={`container ${styles.container}`}>
           
-          {/* Main Focus: Phone Number Section */}
-          <div className={styles.phoneHeroCard}>
-            <div className={styles.phoneIconRing}>
-              <PhoneCall size={32} className={styles.phoneIcon} />
-            </div>
-            <span className={styles.phoneCardLabel}>مهم‌ترین و سریع‌ترین راه ارتباط با ما</span>
-            <h2 className={styles.phoneTitle}>مشاوره و پشتیبانی تلفنی مستقیم</h2>
-            
-            <a href="tel:0218888XXXX" className={styles.phoneNumberDisplay} dir="ltr">
-              ۰۲۱-۸۸۸۸XXXX
-            </a>
+          {/* Sidebar: Phone Card & Company Info Card */}
+          <div className={styles.sidebarColumn}>
+            {/* Main Focus: Phone Number Section */}
+            <div className={styles.phoneHeroCard}>
+              <div className={styles.phoneIconRing}>
+                <PhoneCall size={32} className={styles.phoneIcon} />
+              </div>
+              <span className={styles.phoneCardLabel}>مهم‌ترین و سریع‌ترین راه ارتباط با ما</span>
+              <h2 className={styles.phoneTitle}>مشاوره و پشتیبانی تلفنی مستقیم</h2>
+              
+              <a href="tel:0218888XXXX" className={styles.phoneNumberDisplay} dir="ltr">
+                ۰۲۱-۸۸۸۸XXXX
+              </a>
 
-            <div className={styles.phoneGridDetails}>
-              <div className={styles.detailItem}>
-                <Clock size={18} className={styles.detailIcon} />
-                <div>
-                  <strong>ساعات پاسخگویی</strong>
-                  <p>شنبه تا چهارشنبه ۹ تا ۱۷ | پنجشنبه ۹ تا ۱۳</p>
+              <div className={styles.phoneGridDetails}>
+                <div className={styles.detailItem}>
+                  <Clock size={18} className={styles.detailIcon} />
+                  <div>
+                    <strong>ساعات پاسخگویی</strong>
+                    <p>شنبه تا چهارشنبه ۹ تا ۱۷ | پنجشنبه ۹ تا ۱۳</p>
+                  </div>
+                </div>
+                <div className={styles.detailItem}>
+                  <ShieldCheck size={18} className={styles.detailIcon} />
+                  <div>
+                    <strong>مشاوره تخصصی رایگان</strong>
+                    <p>راهنمایی خرید تجهیزات و راه‌اندازی زیرساخت فنی</p>
+                  </div>
                 </div>
               </div>
-              <div className={styles.detailItem}>
-                <ShieldCheck size={18} className={styles.detailIcon} />
-                <div>
-                  <strong>تماس فوری و مستقیم</strong>
-                  <p>بدون معطلی در صف انتظار تلفنی</p>
+
+              <a href="tel:0218888XXXX" className={styles.callActionButton}>
+                <PhoneCall size={18} />
+                <span>برقراری تماس مستقیم</span>
+              </a>
+            </div>
+
+            {/* Company & Team Info Card */}
+            <div className={styles.infoCard}>
+              <div className={styles.infoTitleRow}>
+                <Users size={22} className={styles.infoTitleIcon} />
+                <h3>درباره تیم و خدمات سیدی آی‌تی</h3>
+              </div>
+              <p className={styles.teamDescription}>
+                تیم سیدی آی‌تی متشکل از مهندسین و کارشناسان باسابقه حوزه فناوری اطلاعات، زیرساخت شبکه و امنیت سایبری است. ما با سال‌ها تجربه عملی در راه‌اندازی اتاق سرور و پشتیبانی شبکه سازمان‌ها، در تلاشیم تا بهترین سخت‌افزارها و مشاوره‌های فنی را به کسب‌وکارها و دفاتر اسناد رسمی در کشور ارائه کنیم.
+              </p>
+              
+              <div className={styles.contactDetailsList}>
+                <div className={styles.contactDetailItem}>
+                  <Mail size={18} className={styles.detailIcon} />
+                  <div>
+                    <strong>پست الکترونیکی (ایمیل)</strong>
+                    <a href="mailto:info@seyediit.com" className={styles.emailLink}>info@seyediit.com</a>
+                  </div>
+                </div>
+                
+                <div className={styles.contactDetailItem}>
+                  <MapPin size={18} className={styles.detailIcon} />
+                  <div>
+                    <strong>نشانی دفتر مرکزی</strong>
+                    <p>تهران، خیابان ولیعصر، تقاطع میرداماد، مجتمع کامپیوتر پایتخت، طبقه سوم</p>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <a href="tel:0218888XXXX" className={styles.callActionButton}>
-              <PhoneCall size={18} />
-              <span>برقراری تماس مستقیم</span>
-            </a>
           </div>
 
           {/* Ticket Submission Section */}
