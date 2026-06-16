@@ -25,7 +25,6 @@ interface FAQItem {
 }
 
 export default function ServerRackService() {
-  const [selectedPlan, setSelectedPlan] = useState<string>('silver');
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   
   // Form States
@@ -44,15 +43,6 @@ export default function ServerRackService() {
       metaDesc.setAttribute('content', 'شرکت سیدی آی‌تی ارائه دهنده تمامی خدمات نگهداری، پشتیبانی تخصصی، عیب یابی، به روزرسانی و مانیتورینگ اتاق سرور و تجهیزات رک سازمان‌ها.');
     }
   }, []);
-
-  const handlePlanSelect = (planKey: string) => {
-    setSelectedPlan(planKey);
-    // Scroll smoothly to form section
-    const formSection = document.getElementById('request-form-section');
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const toggleFaq = (index: number) => {
     if (activeFaq === index) {
@@ -91,7 +81,7 @@ export default function ServerRackService() {
     },
     {
       question: 'در صورت بروز خرابی اضطراری سرور، زمان واکنش شما چقدر است؟',
-      answer: 'در پلن طلایی پشتیبانی، کارشناسان ما به صورت آنی مانیتورینگ را رصد کرده و رفع مشکل نرم‌افزاری از راه دور در کمتر از ۱۵ دقیقه و اعزام کارشناس حضوری به محل در کمتر از ۱ ساعت انجام خواهد شد.'
+      answer: 'در خدمات پشتیبانی ویژه ما، کارشناسان به صورت آنی مانیتورینگ را رصد کرده و رفع مشکل نرم‌افزاری از راه دور در کمتر از ۱۵ دقیقه و اعزام کارشناس حضوری به محل در کمتر از ۱ ساعت انجام خواهد شد.'
     },
     {
       question: 'چگونه امنیت و محرمانگی اطلاعات سرورهای ما تضمین می‌شود؟',
@@ -115,8 +105,8 @@ export default function ServerRackService() {
               سرورها قلب تپنده بخش فناوری اطلاعات هر سازمان هستند. تیم متخصص سیدی آی‌تی با ارائه خدمات ۲۴ ساعته مانیتورینگ، نگهداری، عیب‌یابی و تأمین قطعات سخت‌افزاری، پایداری ۱۰۰ درصدی دیتاسنتر شما را تضمین می‌کند.
             </p>
             <div className={styles.heroActions}>
-              <a href="#plans-section" className={styles.primaryBtn}>مشاهده پلن‌های پشتیبانی</a>
-              <a href="#request-form-section" className={styles.secondaryBtn}>مشاوره رایگان تلفنی</a>
+              <a href="#request-form-section" className={styles.primaryBtn}>درخواست مشاوره تلفنی</a>
+              <a href="#why-server-section" className={styles.secondaryBtn}>چرا خدمات سرور؟</a>
             </div>
           </div>
           
@@ -220,92 +210,75 @@ export default function ServerRackService() {
         </div>
       </section>
 
-      {/* Plans Section */}
-      <section id="plans-section" className={styles.plansSection}>
+      {/* Why Server Section */}
+      <section id="why-server-section" className={styles.whyServerSection}>
         <div className="container">
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>پلن‌های پشتیبانی و نگهداری سرور</h2>
-            <p className={styles.sectionDesc}>یکی از پلن‌های متناسب با مقیاس کسب‌وکار خود را انتخاب کنید</p>
+            <h2 className={styles.sectionTitle}>چرا مدیریت و نگهداری اتاق سرور حیاتی است؟</h2>
+            <p className={styles.sectionDesc}>بررسی چالش‌ها، مخاطرات و لزوم رسیدگی مستمر به دیتاسنترها</p>
           </div>
 
-          <div className={styles.plansGrid}>
-            {/* Bronze Plan */}
-            <div 
-              className={`${styles.planCard} ${selectedPlan === 'bronze' ? styles.activePlan : ''}`}
-              onClick={() => setSelectedPlan('bronze')}
-            >
-              <div className={styles.planHeader}>
-                <h3>پلن برنزی</h3>
-                <p>مناسب شرکت‌های کوچک و سرویس‌های غیربحرانی</p>
+          <div className={styles.whyServerGrid}>
+            <div className={styles.whyServerArticle}>
+              <h3>سرور، مغز متفکر و محل تمرکز داده‌های سازمان شماست</h3>
+              <p>
+                در دنیای مدرن کسب‌وکار، تمامی دارایی‌های دیجیتال سازمان شامل اطلاعات مالی، فایل‌های مشتریان، ایمیل‌های اداری و پایگاه داده سیستم‌های یکپارچه (مانند ERP یا CRM) روی سرورها میزبانی و پردازش می‌شوند. هرگونه نقص در عملکرد سرور می‌تواند کل چرخه تجاری را متوقف کرده و ضررهای جبران‌ناپذیری به بار آورد.
+              </p>
+              <p>
+                بسیاری از مدیران تصور می‌کنند تا زمانی که سیستم‌ها بدون مشکل کار می‌کنند، نیازی به رسیدگی وجود ندارد؛ اما واقعیت این است که مشکلات اتاق سرور معمولاً به صورت پنهان انباشته می‌شوند تا اینکه ناگهان به یک فاجعه (DOWN شدن سرتاسری شبکه یا از دست رفتن داده‌ها) ختم شوند.
+              </p>
+              
+              <div className={styles.bulletList}>
+                <div className={styles.bulletItem}>
+                  <span className={styles.bulletNumber}>۱</span>
+                  <div>
+                    <h4>پیشگیری از توقف کارکرد کارکنان (Zero Downtime)</h4>
+                    <p>وقتی سرور قطع شود، دسترسی پرسنل به فایل‌ها، نرم‌افزارهای داخلی و اینترنت قطع خواهد شد. نگهداری مستمر کمک می‌کند علائم خرابی (مانند پر شدن دیسک‌ها یا نشت حافظه) پیش از قطع کامل شناسایی و رفع شوند.</p>
+                  </div>
+                </div>
+
+                <div className={styles.bulletItem}>
+                  <span className={styles.bulletNumber}>۲</span>
+                  <div>
+                    <h4>امنیت اطلاعات و حفاظت در برابر باج‌افزارها</h4>
+                    <p>سرورهایی که به‌روزرسانی‌های امنیتی را دریافت نکنند یا فایروال آن‌ها به درستی پیکربندی نشده باشد، اولین هدف باج‌افزارها هستند. پشتیبانی فنی شامل آپدیت منظم و مانیتورینگ امنیتی است.</p>
+                  </div>
+                </div>
+
+                <div className={styles.bulletItem}>
+                  <span className={styles.bulletNumber}>۳</span>
+                  <div>
+                    <h4>تضمین بازگردانی اطلاعات در صورت بروز بحران (Disaster Recovery)</h4>
+                    <p>خرابی سخت‌افزاری، آتش‌سوزی یا اشتباهات انسانی همیشه ممکن است رخ دهد. داشتن یک سناریوی بکاپ‌گیری دوره‌ای و تست مداوم بازیابی اطلاعات، تنها راه بیمه کردن کسب‌وکار شما در برابر فاجعه است.</p>
+                  </div>
+                </div>
               </div>
-              <ul className={styles.planFeatures}>
-                <li><Check size={16} /> ۱ بازدید حضوری دوره‌ای در ماه</li>
-                <li><Check size={16} /> پشتیبانی راه دور نامحدود (AnyDesk)</li>
-                <li><Check size={16} /> زمان پاسخگویی تلفنی کمتر از ۱ ساعت</li>
-                <li><Check size={16} /> عیب‌یابی و گزارش‌دهی ماهیانه سخت‌افزار</li>
-                <li className={styles.disabledFeature}><Check size={16} /> مانیتورینگ لحظه‌ای ۲۴ ساعته</li>
-                <li className={styles.disabledFeature}><Check size={16} /> مانیتورینگ اختصاصی بکاپ‌گیری روزانه</li>
-              </ul>
-              <button 
-                type="button" 
-                className={styles.planBtn}
-                onClick={(e) => { e.stopPropagation(); handlePlanSelect('bronze'); }}
-              >
-                انتخاب این پلن
-              </button>
             </div>
 
-            {/* Silver Plan */}
-            <div 
-              className={`${styles.planCard} ${styles.popularPlan} ${selectedPlan === 'silver' ? styles.activePlan : ''}`}
-              onClick={() => setSelectedPlan('silver')}
-            >
-              <div className={styles.popularBadge}>پیشنهادی</div>
-              <div className={styles.planHeader}>
-                <h3>پلن نقره‌ای</h3>
-                <p>مناسب شرکت‌های متوسط و کسب‌وکارهای در حال رشد</p>
+            <div className={styles.whyServerSidebar}>
+              <div className={styles.sidebarCard}>
+                <h4>آمار و فکت‌های کلیدی</h4>
+                <ul className={styles.statList}>
+                  <li>
+                    <strong>۹۵٪</strong>
+                    <span>کسب‌وکارهای کوچک و متوسط در صورت از دست رفتن داده‌های کلیدی برای بیش از یک هفته، تا یک سال بعد ورشکست می‌شوند.</span>
+                  </li>
+                  <li>
+                    <strong>۷۰٪</strong>
+                    <span>از خرابی‌های سخت‌افزاری سرورها به دلیل نوسانات دما، رطوبت یا تجمع گرد و غبار رخ می‌دهد که با نگهداری فیزیکی قابل پیشگیری است.</span>
+                  </li>
+                  <li>
+                    <strong>۸۵٪</strong>
+                    <span>حملات باج‌افزاری از طریق آسیب‌پذیری‌های وصله‌نشده سیستم‌عامل سرورها نفوذ می‌کنند.</span>
+                  </li>
+                </ul>
               </div>
-              <ul className={styles.planFeatures}>
-                <li><Check size={16} /> ۳ بازدید حضوری دوره‌ای در ماه</li>
-                <li><Check size={16} /> پشتیبانی راه دور نامحدود (تلفنی و آنلاین)</li>
-                <li><Check size={16} /> زمان پاسخگویی به مشکلات اضطراری زیر ۴ ساعت</li>
-                <li><Check size={16} /> مانیتورینگ نیمه‌وقت سرویس‌ها و منابع سرور</li>
-                <li><Check size={16} /> راه‌اندازی و مانیتورینگ منظم سیستم بکاپ هفتگی</li>
-                <li><Check size={16} /> ممیزی دوره‌ای امنیت شبکه و فایروال</li>
-              </ul>
-              <button 
-                type="button" 
-                className={styles.planBtn}
-                onClick={(e) => { e.stopPropagation(); handlePlanSelect('silver'); }}
-              >
-                انتخاب این پلن
-              </button>
-            </div>
-
-            {/* Gold Plan */}
-            <div 
-              className={`${styles.planCard} ${selectedPlan === 'gold' ? styles.activePlan : ''}`}
-              onClick={() => setSelectedPlan('gold')}
-            >
-              <div className={styles.planHeader}>
-                <h3>پلن طلایی</h3>
-                <p>مناسب سازمان‌ها و سرویس‌های با حساسیت بالا</p>
+              
+              <div className={styles.sidebarActionBox}>
+                <h4>آیا سرورهای شما ایمن هستند؟</h4>
+                <p>همین امروز می‌توانید درخواست ممیزی و تست سلامت فیزیکی و نرم‌افزاری اتاق سرور خود را به صورت رایگان ثبت کنید.</p>
+                <a href="#request-form-section" className={styles.sidebarLinkBtn}>درخواست ممیزی رایگان</a>
               </div>
-              <ul className={styles.planFeatures}>
-                <li><Check size={16} /> بازدیدهای حضوری هفتگی منظم (۴+ بار در ماه)</li>
-                <li><Check size={16} /> پشتیبانی شبانه‌روزی (۲۴/۷) با خط تلفن مستقیم ادمین</li>
-                <li><Check size={16} /> اعزام کارشناس به محل در کمتر از ۱ ساعت (فوری)</li>
-                <li><Check size={16} /> مانیتورینگ لحظه‌ای پیشرفته دیتاسنتر</li>
-                <li><Check size={16} /> سیستم بکاپ روزانه چندگانه (محلی و ابری)</li>
-                <li><Check size={16} /> ارائه ادمین مقیم در سازمان در صورت نیاز</li>
-              </ul>
-              <button 
-                type="button" 
-                className={styles.planBtn}
-                onClick={(e) => { e.stopPropagation(); handlePlanSelect('gold'); }}
-              >
-                انتخاب این پلن
-              </button>
             </div>
           </div>
         </div>
@@ -394,18 +367,7 @@ export default function ServerRackService() {
                     </div>
                   </div>
 
-                  <div className={styles.formGroup}>
-                    <label htmlFor="plan">پلن مورد نظر</label>
-                    <select 
-                      id="plan" 
-                      value={selectedPlan} 
-                      onChange={(e) => setSelectedPlan(e.target.value)}
-                    >
-                      <option value="bronze">پلن برنزی (پشتیبانی پایه)</option>
-                      <option value="silver">پلن نقره‌ای (پشتیبانی پیشرفته پیشنهادی)</option>
-                      <option value="gold">پلن طلایی (پشتیبانی ویژه ۲۴ ساعته)</option>
-                    </select>
-                  </div>
+
 
                   <div className={styles.formGroup}>
                     <label htmlFor="message">توضیحات بیشتر یا نیازهای خاص دیتاسنتر</label>

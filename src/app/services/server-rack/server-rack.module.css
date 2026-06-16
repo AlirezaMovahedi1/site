@@ -302,140 +302,170 @@
   line-height: 1.7;
 }
 
-/* Plans Section */
-.plansSection {
+/* Why Server Section */
+.whyServerSection {
   padding: 100px 0;
   background-color: var(--bg-tertiary);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
 }
 
-.plansGrid {
+.whyServerGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  align-items: stretch;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 48px;
+  align-items: flex-start;
 }
 
-.planCard {
-  background-color: var(--bg-secondary);
-  border: 2px solid var(--border-color);
-  border-radius: 20px;
-  padding: 40px 32px;
+.whyServerArticle {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  cursor: pointer;
-  position: relative;
-  transition: var(--transition);
+  gap: 20px;
 }
 
-.planCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-}
-
-.activePlan {
-  border-color: var(--accent) !important;
-  box-shadow: 0 12px 30px var(--accent-shadow) !important;
-}
-
-.popularPlan {
-  border-color: var(--accent);
-  transform: scale(1.03);
-  box-shadow: 0 15px 35px var(--accent-shadow);
-}
-
-.popularPlan:hover {
-  transform: translateY(-3px) scale(1.03);
-}
-
-.popularBadge {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--accent);
-  color: #ffffff;
-  padding: 4px 16px;
-  border-radius: 30px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
-
-.planHeader h3 {
-  font-size: 1.5rem;
+.whyServerArticle h3 {
+  font-size: 1.6rem;
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  line-height: 1.4;
 }
 
-.planHeader p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.5;
+.whyServerArticle p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
 }
 
-.planFeatures {
-  list-style: none;
+.bulletList {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  flex-grow: 1;
+  gap: 24px;
+  margin-top: 15px;
 }
 
-.planFeatures li {
+.bulletItem {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.bulletNumber {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border-light);
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-}
-
-.planFeatures li svg {
-  color: var(--success);
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
   flex-shrink: 0;
 }
 
-.disabledFeature {
-  opacity: 0.4;
-  text-decoration: line-through;
-}
-
-.disabledFeature svg {
-  color: var(--text-muted) !important;
-}
-
-.planBtn {
-  width: 100%;
-  padding: 12px;
-  background-color: var(--bg-tertiary);
+.bulletItem h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.bulletItem p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.whyServerSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 100px;
+}
+
+.sidebarCard {
+  background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.sidebarCard h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.statList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.statList li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statList li strong {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.statList li span {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.sidebarActionBox {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--logo-diagonal) 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebarActionBox h4 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.sidebarActionBox p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.sidebarLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background-color: #ffffff;
+  color: var(--logo-diagonal) !important;
   border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+  font-weight: 700;
   transition: var(--transition);
 }
 
-.planBtn:hover {
-  background-color: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
-}
-
-.activePlan .planBtn,
-.popularPlan .planBtn {
-  background-color: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
-  box-shadow: 0 4px 10px var(--accent-shadow);
-}
-
-.activePlan .planBtn:hover,
-.popularPlan .planBtn:hover {
-  background-color: var(--accent-hover);
+.sidebarLinkBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 /* Form Section */
@@ -717,19 +747,13 @@
     align-self: center;
   }
   
-  .plansGrid {
+  .whyServerGrid {
     grid-template-columns: 1fr;
-    gap: 24px;
-    max-width: 450px;
-    margin: 0 auto;
+    gap: 32px;
   }
   
-  .popularPlan {
-    transform: none;
-  }
-  
-  .popularPlan:hover {
-    transform: translateY(-3px);
+  .whyServerSidebar {
+    position: static;
   }
   
   .formGrid {
@@ -756,7 +780,7 @@
     margin-top: -10px;
   }
   
-  .servicesSection, .plansSection, .formSection, .faqSection {
+  .servicesSection, .whyServerSection, .formSection, .faqSection {
     padding: 60px 0;
   }
   
