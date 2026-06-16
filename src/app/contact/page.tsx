@@ -1,0 +1,196 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { PhoneCall, MessageSquare, Send, CheckCircle2, ChevronDown, Clock, ShieldCheck } from 'lucide-react';
+import styles from './contact.module.css';
+
+export default function ContactPage() {
+  // Form States
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [department, setDepartment] = useState('technical');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
+  useEffect(() => {
+    document.title = 'تماس با ما | سیدی آی‌تی';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'راه‌های ارتباطی با سیدی آی‌تی. تماس تلفنی مستقیم با کارشناسان و ثبت تیکت پشتیبانی آنلاین در سریع‌ترین زمان ممکن.');
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone || !message) {
+      alert('لطفاً تمامی فیلدهای ستاره‌دار را تکمیل نمایید.');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Mock API submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitSuccess(true);
+      setName('');
+      setPhone('');
+      setMessage('');
+    }, 1500);
+  };
+
+  return (
+    <div className={styles.wrapper}>
+      {/* Page Header */}
+      <section className={styles.headerSection}>
+        <div className="container">
+          <span className={styles.badge}>ارتباط مستقیم</span>
+          <h1 className={styles.title}>تماس با ما</h1>
+          <p className={styles.subtitle}>
+            سریع‌ترین راه‌های ارتباطی و حل مشکلات شما. کارشناسان ما آماده پاسخگویی هستند.
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.mainSection}>
+        <div className={`container ${styles.container}`}>
+          
+          {/* Main Focus: Phone Number Section */}
+          <div className={styles.phoneHeroCard}>
+            <div className={styles.phoneIconRing}>
+              <PhoneCall size={32} className={styles.phoneIcon} />
+            </div>
+            <span className={styles.phoneCardLabel}>مهم‌ترین و سریع‌ترین راه ارتباط با ما</span>
+            <h2 className={styles.phoneTitle}>مشاوره و پشتیبانی تلفنی مستقیم</h2>
+            
+            <a href="tel:0218888XXXX" className={styles.phoneNumberDisplay} dir="ltr">
+              ۰۲۱-۸۸۸۸XXXX
+            </a>
+
+            <div className={styles.phoneGridDetails}>
+              <div className={styles.detailItem}>
+                <Clock size={18} className={styles.detailIcon} />
+                <div>
+                  <strong>ساعات پاسخگویی</strong>
+                  <p>شنبه تا چهارشنبه ۹ تا ۱۷ | پنجشنبه ۹ تا ۱۳</p>
+                </div>
+              </div>
+              <div className={styles.detailItem}>
+                <ShieldCheck size={18} className={styles.detailIcon} />
+                <div>
+                  <strong>تماس فوری و مستقیم</strong>
+                  <p>بدون معطلی در صف انتظار تلفنی</p>
+                </div>
+              </div>
+            </div>
+
+            <a href="tel:0218888XXXX" className={styles.callActionButton}>
+              <PhoneCall size={18} />
+              <span>برقراری تماس مستقیم</span>
+            </a>
+          </div>
+
+          {/* Ticket Submission Section */}
+          <div className={styles.ticketSection}>
+            <div className={styles.ticketHeader}>
+              <div className={styles.ticketTitleRow}>
+                <MessageSquare size={24} className={styles.ticketTitleIcon} />
+                <h2>ارسال تیکت پشتیبانی آنلاین</h2>
+              </div>
+              <p>در صورتی که در خارج از ساعات اداری قصد برقراری ارتباط دارید، یا نیاز به ارسال مستندات دارید، تیکت خود را ثبت کنید.</p>
+            </div>
+
+            <div className={styles.formCard}>
+              {submitSuccess ? (
+                <div className={styles.successMessage}>
+                  <div className={styles.successIconBox}>
+                    <CheckCircle2 size={48} className={styles.successIcon} />
+                  </div>
+                  <h3>تیکت شما با موفقیت ثبت شد</h3>
+                  <p>
+                    کارشناسان ما درخواست شما را دریافت کردند. پاسخ تیکت در اسرع وقت از طریق پیامک یا تماس تلفنی به اطلاع شما خواهد رسید.
+                  </p>
+                  <button 
+                    onClick={() => setSubmitSuccess(false)} 
+                    className={styles.resetBtn}
+                  >
+                    ثبت تیکت جدید
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className={styles.form}>
+                  <div className={styles.formRow}>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="name">نام و نام خانوادگی <span className={styles.required}>*</span></label>
+                      <input 
+                        type="text" 
+                        id="name" 
+                        value={name} 
+                        onChange={(e) => setName(e.target.value)} 
+                        placeholder="مثال: علیرضا موحدی"
+                        required 
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label htmlFor="phone">شماره موبایل یا تماس <span className={styles.required}>*</span></label>
+                      <input 
+                        type="tel" 
+                        id="phone" 
+                        value={phone} 
+                        onChange={(e) => setPhone(e.target.value)} 
+                        placeholder="مثال: 09123456789"
+                        required 
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="department">انتخاب واحد مربوطه</label>
+                    <div className={styles.selectWrapper}>
+                      <select 
+                        id="department" 
+                        value={department} 
+                        onChange={(e) => setDepartment(e.target.value)}
+                        className={styles.selectInput}
+                      >
+                        <option value="technical">پشتیبانی فنی سخت‌افزار و شبکه</option>
+                        <option value="sales">واحد فروش و استعلام قیمت</option>
+                        <option value="billing">واحد مالی و فاکتورها</option>
+                        <option value="management">ارتباط مستقیم با مدیریت</option>
+                      </select>
+                      <ChevronDown size={18} className={styles.selectChevron} />
+                    </div>
+                  </div>
+
+                  <div className={styles.formGroup}>
+                    <label htmlFor="message">متن تیکت / توضیحات درخواست <span className={styles.required}>*</span></label>
+                    <textarea 
+                      id="message" 
+                      value={message} 
+                      onChange={(e) => setMessage(e.target.value)} 
+                      placeholder="لطفاً شرح کامل مشکل یا درخواست خود را در این بخش بنویسید..."
+                      rows={6}
+                      required
+                    />
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className={styles.submitButton}
+                    disabled={isSubmitting}
+                  >
+                    <Send size={18} />
+                    <span>{isSubmitting ? 'در حال ثبت تیکت...' : 'ارسال تیکت پشتیبانی'}</span>
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  );
+}
