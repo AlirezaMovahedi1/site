@@ -66,7 +66,7 @@ export default async function ProductDetailsPage({ params }: Props) {
         <div className={styles.imageColumn}>
           <div className={styles.imageWrapper}>
             <Image
-              src={product.image}
+              src="/images/placeholder.png"
               alt={product.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"

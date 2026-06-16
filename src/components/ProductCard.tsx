@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
-import { ShoppingCart, Star, Cpu, Download } from 'lucide-react';
+import { ShoppingCart, Star } from 'lucide-react';
 import styles from './ProductCard.module.css';
 
 interface Product {
@@ -26,20 +26,9 @@ export default function ProductCard({ product }: { product: Product }) {
   return (
     <div className={styles.card}>
       <Link href={`/products/${product.slug}`} className={styles.imageLink}>
-        <div className={styles.badgeContainer}>
-          {product.type === 'PHYSICAL' ? (
-            <span className={`${styles.badge} ${styles.badgePhysical}`}>
-              <Cpu size={12} /> سخت‌افزار فیزیکی
-            </span>
-          ) : (
-            <span className={`${styles.badge} ${styles.badgeDigital}`}>
-              <Download size={12} /> دانلود آنی
-            </span>
-          )}
-        </div>
         <div className={styles.imageWrapper}>
           <Image
-            src={product.image}
+            src="/images/placeholder.png"
             alt={product.name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
