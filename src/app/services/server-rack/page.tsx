@@ -273,12 +273,7 @@ export default function ServerRackService() {
                   </li>
                 </ul>
               </div>
-              
-              <div className={styles.sidebarActionBox}>
-                <h4>آیا سرورهای شما ایمن هستند؟</h4>
-                <p>همین امروز می‌توانید درخواست ممیزی و تست سلامت فیزیکی و نرم‌افزاری اتاق سرور خود را به صورت رایگان ثبت کنید.</p>
-                <a href="#request-form-section" className={styles.sidebarLinkBtn}>درخواست ممیزی رایگان</a>
-              </div>
+
             </div>
           </div>
         </div>
