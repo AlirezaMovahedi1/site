@@ -89,13 +89,14 @@ export default function Header() {
           </div>
           <div className={styles.navDropdownContainer}>
             <button className={styles.dropdownToggle}>
-              <span>خدمات سازمانی</span>
+              <span>خدمات</span>
               <ChevronDown size={14} className={styles.chevronIcon} />
             </button>
             <div className={styles.dropdownMenu}>
               <Link href="/services/server-rack" className={styles.dropdownItem}>خدمات سرور و رک</Link>
               <Link href="/services/web-design" className={styles.dropdownItem}>طراحی سایت</Link>
               <Link href="/services/it-support" className={styles.dropdownItem}>پشتیبانی آی تی</Link>
+              <Link href="/services/business-card" className={styles.dropdownItem}>طراحی کارت ویزیت</Link>
             </div>
           </div>
           <Link href="/blog" className={styles.navLink}>وبلاگ</Link>
