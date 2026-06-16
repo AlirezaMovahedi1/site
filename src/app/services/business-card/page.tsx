@@ -177,36 +177,7 @@ export default function BusinessCardService() {
             </div>
           </div>
 
-          <div className={styles.heroVisual}>
-            {/* Card Front */}
-            <div className={styles.businessCardFront}>
-              <div className={styles.cardLogo}>
-                <svg viewBox="0 0 100 120" className={styles.cardLogoIcon}>
-                  <polygon points="18,28 49,10 49,46" fill="#e2e8f0" />
-                  <polygon points="82,28 51,10 51,46" fill="#e2e8f0" />
-                  <polygon points="18,30 82,67 82,93 18,56" fill="#c084fc" />
-                </svg>
-                <span>سیدی آی‌تی</span>
-              </div>
-              <div className={styles.cardOwner}>
-                <h3>علیرضا موحدی</h3>
-                <p>مدیر توسعه فناوری اطلاعات</p>
-              </div>
-            </div>
 
-            {/* Card Back */}
-            <div className={styles.businessCardBack}>
-              <div className={styles.cardDetails}>
-                <div className={styles.detailLine}><span>📞</span> ۰۲۱-۸۸۸۸XXXX</div>
-                <div className={styles.detailLine}><span>🌐</span> seyediit.com</div>
-                <div className={styles.detailLine}><span>📍</span> تهران، مجتمع کامپیوتر پایتخت</div>
-              </div>
-              <div className={styles.cardQrBox}>
-                <QrCode size={40} className={styles.qrIcon} />
-                <span>اسکن کنید</span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
