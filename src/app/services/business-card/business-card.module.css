@@ -116,65 +116,57 @@
   transform: translateY(-2px);
 }
 
-/* 3D Card Flip Scene */
+/* Static Business Cards Layout */
 .heroVisual {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
   align-items: center;
-}
-
-.cardScene {
-  position: relative;
-  width: 340px;
-  height: 200px;
-  perspective: 1000px;
-  cursor: pointer;
+  justify-content: center;
+  width: 100%;
 }
 
 .businessCardFront,
 .businessCardBack {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: 100%;
+  max-width: 340px;
+  height: 200px;
   border-radius: 16px;
   padding: 28px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-  backface-visibility: hidden;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  transition: var(--transition);
 }
 
 [data-theme="dark"] .businessCardFront,
 [data-theme="dark"] .businessCardBack {
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
 }
 
 .businessCardFront {
   background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
   color: #ffffff;
-  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transform: rotateY(0deg);
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .businessCardBack {
   background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
   color: #ffffff;
-  display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  transform: rotateY(180deg);
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Flip Hover Effect */
-.cardScene:hover .businessCardFront {
-  transform: rotateY(180deg);
+.businessCardFront:hover,
+.businessCardBack:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-.cardScene:hover .businessCardBack {
-  transform: rotateY(360deg);
+[data-theme="dark"] .businessCardFront:hover,
+[data-theme="dark"] .businessCardBack:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
 }
 
 /* Front Details */
