@@ -1,5 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
+import crypto from 'crypto';
+
+function hashPassword(password: string): string {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  return `${salt}:${hash}`;
+}
 
 const adapter = new PrismaBetterSqlite3({
   url: 'file:./dev.db',
@@ -13,6 +20,7 @@ async function main() {
   await prisma.product.deleteMany({});
   await prisma.category.deleteMany({});
   await prisma.post.deleteMany({});
+  await prisma.admin.deleteMany({});
 
   console.log('Cleared existing data.');
 
@@ -799,6 +807,18 @@ async function main() {
   });
 
   console.log('Blog posts seeded.');
+
+  // 5. Create Default Admin Account
+  const adminUsername = 'admin';
+  const adminPassword = 'admin123456';
+  await prisma.admin.create({
+    data: {
+      username: adminUsername,
+      password: hashPassword(adminPassword),
+      name: 'مدیر سیستم'
+    }
+  });
+  console.log('Default administrator account seeded.');
   console.log('Database seeding finished successfully!');
 }
 
