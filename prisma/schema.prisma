@@ -73,3 +73,13 @@ model Admin {
   name      String?
   createdAt DateTime @default(now())
 }
+
+model Ticket {
+  id         String   @id @default(uuid())
+  name       String
+  phone      String
+  department String
+  message    String
+  status     String   @default("new") // new, progress, success, cancel
+  createdAt  DateTime @default(now())
+}

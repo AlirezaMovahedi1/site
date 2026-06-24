@@ -12,7 +12,7 @@ interface Slide {
   title: string;
 }
 
-const slides: Slide[] = [
+const DEFAULT_SLIDES: Slide[] = [
   {
     id: 1,
     image: '/images/shop_banner_v3.png',
@@ -30,7 +30,7 @@ const slides: Slide[] = [
 const TRANSITION_DURATION = 600; // ms
 const TRANSITION_CSS = `transform ${TRANSITION_DURATION}ms cubic-bezier(0.25, 1, 0.5, 1)`;
 
-export default function HomeSlider() {
+export default function HomeSlider({ slides = DEFAULT_SLIDES }: { slides?: Slide[] }) {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const prevIndexRef = useRef(0);
@@ -54,11 +54,17 @@ export default function HomeSlider() {
 
   const nextSlide = useCallback(() => {
     goToSlide(current === slides.length - 1 ? 0 : current + 1, 'forward');
-  }, [current, goToSlide]);
+  }, [current, goToSlide, slides.length]);
 
   const prevSlide = useCallback(() => {
     goToSlide(current === 0 ? slides.length - 1 : current - 1, 'backward');
-  }, [current, goToSlide]);
+  }, [current, goToSlide, slides.length]);
+
+  useEffect(() => {
+    if (current >= slides.length) {
+      setCurrent(0);
+    }
+  }, [slides.length, current]);
 
   // After transition finishes, clear animation flag so inactive slide snaps to waiting position
   useEffect(() => {

@@ -30,14 +30,34 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Mock API submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          phone,
+          department,
+          message,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'خطایی در ثبت تیکت رخ داد.');
+      }
+
       setSubmitSuccess(true);
       setName('');
       setPhone('');
       setMessage('');
-    }, 1500);
+    } catch (err: any) {
+      alert(err.message || 'خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

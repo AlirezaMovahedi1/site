@@ -50,6 +50,7 @@ export async function POST(request: Request) {
     const response = NextResponse.json({
       success: true,
       name: admin.name,
+      token: token,
     });
 
     response.cookies.set('admin_session', token, {
