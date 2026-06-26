@@ -47,7 +47,12 @@ export default async function ProductDetailsPage({ params }: Props) {
     console.error('Failed to parse product specifications', e);
   }
 
-  const formattedPrice = new Intl.NumberFormat('fa-IR').format(product.price);
+  const hasSpecialOffer = !!(product.isSpecialOffer && product.specialPrice && (!product.specialOfferEnd || new Date(product.specialOfferEnd) > new Date()));
+  const activePrice = hasSpecialOffer ? product.specialPrice! : product.price;
+
+  const formattedPrice = new Intl.NumberFormat('fa-IR').format(activePrice);
+  const formattedOriginalPrice = new Intl.NumberFormat('fa-IR').format(product.price);
+  const discountPercent = hasSpecialOffer ? Math.round((1 - (product.specialPrice! / product.price)) * 100) : 0;
 
   return (
     <div className={`container ${styles.page}`}>
@@ -66,7 +71,7 @@ export default async function ProductDetailsPage({ params }: Props) {
         <div className={styles.imageColumn}>
           <div className={styles.imageWrapper}>
             <Image
-              src="/images/placeholder.png"
+              src={product.image || "/images/placeholder.png"}
               alt={product.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -97,13 +102,30 @@ export default async function ProductDetailsPage({ params }: Props) {
           </div>
 
           <div className={styles.priceBlock}>
-            <span className={styles.price}>{formattedPrice}</span>
-            <span className={styles.currency}>تومان</span>
+            {hasSpecialOffer ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '1rem' }}>{formattedOriginalPrice} تومان</span>
+                  <span style={{ backgroundColor: 'var(--error)', color: '#ffffff', padding: '3px 8px', borderRadius: '12px', fontSize: '0.8rem', fontWeight: 'bold' }}>
+                    {discountPercent}٪ تخفیف شگفت‌انگیز
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                  <span className={styles.price} style={{ color: 'var(--error)', fontSize: '2rem', fontWeight: 800 }}>{formattedPrice}</span>
+                  <span className={styles.currency} style={{ color: 'var(--error)', fontWeight: 600 }}>تومان</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                <span className={styles.price}>{formattedPrice}</span>
+                <span className={styles.currency}>تومان</span>
+              </>
+            )}
           </div>
 
           <p className={styles.description}>{product.description}</p>
 
-          <AddToCartSection product={product as any} />
+          <AddToCartSection product={{ ...product, price: activePrice } as any} />
 
           {/* Value Props List */}
           <div className={styles.features}>

@@ -31,6 +31,10 @@ model Product {
   categoryId  String
   category    Category    @relation(fields: [categoryId], references: [id])
   orderItems  OrderItem[]
+
+  isSpecialOffer  Boolean   @default(false)
+  specialPrice    Float?
+  specialOfferEnd DateTime?
 }
 
 model Order {

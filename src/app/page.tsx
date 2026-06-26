@@ -4,6 +4,7 @@ import Image from 'next/image';
 import prisma from '../lib/prisma';
 import ProductCard from '../components/ProductCard';
 import HomeSlider from '../components/HomeSlider';
+import SpecialOffers from '../components/SpecialOffers';
 import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock } from 'lucide-react';
 import styles from './page.module.css';
 import fs from 'fs';
@@ -43,6 +44,29 @@ export default async function Home() {
     orderBy: { createdAt: 'desc' },
   });
 
+  const sharedOfferEnd = new Date();
+  sharedOfferEnd.setDate(sharedOfferEnd.getDate() + 1);
+  sharedOfferEnd.setHours(sharedOfferEnd.getHours() + 2);
+  sharedOfferEnd.setMinutes(sharedOfferEnd.getMinutes() + 6);
+  sharedOfferEnd.setSeconds(sharedOfferEnd.getSeconds() + 11);
+
+  const dbProductsForOffers = await prisma.product.findMany({
+    take: 5,
+    include: {
+      category: true,
+    },
+    orderBy: { rating: 'desc' },
+  });
+
+  const specialOffers = dbProductsForOffers.map((prod, idx) => {
+    return {
+      ...prod,
+      isSpecialOffer: true,
+      specialPrice: Math.round(prod.price * (0.8 + (idx * 0.03))), // varying discounts (e.g. 20%, 17%, 14%...)
+      specialOfferEnd: sharedOfferEnd,
+    };
+  });
+
   return (
     <div className={styles.home}>
       {/* Home Image Slideshow */}
@@ -51,6 +75,9 @@ export default async function Home() {
           <HomeSlider slides={settings.banners && settings.banners.length > 0 ? settings.banners : undefined} />
         </div>
       )}
+
+      {/* Special Offers Section */}
+      <SpecialOffers products={specialOffers} />
 
       {/* Trust Badges */}
       {settings.showFeatures && (

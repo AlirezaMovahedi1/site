@@ -46,6 +46,9 @@ export async function POST(request: Request) {
       categoryId,
       downloadUrl,
       inventory,
+      isSpecialOffer,
+      specialPrice,
+      specialOfferEnd,
     } = body;
 
     if (!name || !slug || !description || !price || !image || !type || !categoryId) {
@@ -78,6 +81,9 @@ export async function POST(request: Request) {
         categoryId,
         downloadUrl: downloadUrl || null,
         inventory: inventory !== undefined && inventory !== null ? parseInt(inventory) : null,
+        isSpecialOffer: !!isSpecialOffer,
+        specialPrice: specialPrice !== undefined && specialPrice !== null ? parseFloat(specialPrice) : null,
+        specialOfferEnd: specialOfferEnd !== undefined && specialOfferEnd !== null ? new Date(specialOfferEnd) : null,
       },
     });
 
@@ -112,6 +118,9 @@ export async function PUT(request: Request) {
       categoryId,
       downloadUrl,
       inventory,
+      isSpecialOffer,
+      specialPrice,
+      specialOfferEnd,
     } = body;
 
     if (!id || !name || !slug || !description || !price || !image || !type || !categoryId) {
@@ -134,6 +143,9 @@ export async function PUT(request: Request) {
         categoryId,
         downloadUrl: downloadUrl || null,
         inventory: inventory !== undefined && inventory !== null ? parseInt(inventory) : null,
+        isSpecialOffer: isSpecialOffer !== undefined ? !!isSpecialOffer : undefined,
+        specialPrice: specialPrice !== undefined && specialPrice !== null ? parseFloat(specialPrice) : null,
+        specialOfferEnd: specialOfferEnd !== undefined && specialOfferEnd !== null ? new Date(specialOfferEnd) : null,
       },
     });
 

@@ -199,3 +199,17 @@
   }
 }
 
+.discountBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: var(--error);
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  z-index: 10;
+  direction: ltr;
+}
+
