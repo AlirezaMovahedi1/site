@@ -2,6 +2,22 @@ import React from 'react';
 import prisma from '../../lib/prisma';
 import ProductCard from '../../components/ProductCard';
 import styles from './products.module.css';
+import fs from 'fs';
+import path from 'path';
+
+const settingsFilePath = path.join(process.cwd(), 'settings.json');
+
+function getSettings() {
+  try {
+    if (!fs.existsSync(settingsFilePath)) {
+      return {};
+    }
+    const data = fs.readFileSync(settingsFilePath, 'utf-8');
+    return JSON.parse(data);
+  } catch (e) {
+    return {};
+  }
+}
 
 export const metadata = {
   title: 'کاتالوگ محصولات | سیدی آی‌تی',
@@ -61,53 +77,101 @@ export default async function ProductsPage({
     whereClause.category = { slug: categorySlug };
   }
 
-  // Check count of real special offers in DB
-  const specialCount = await prisma.product.count({
-    where: { isSpecialOffer: true }
-  });
-
+  const settings = getSettings();
+  let products = [];
   let showSpecialMock = false;
+
   if (showSpecial) {
-    if (specialCount > 0) {
-      whereClause.isSpecialOffer = true;
+    if (settings.specialOffersAuto !== false) {
+      // Auto mode: show actual specials in DB
+      const specialCount = await prisma.product.count({
+        where: { isSpecialOffer: true }
+      });
+      
+      if (specialCount > 0) {
+        whereClause.isSpecialOffer = true;
+      } else {
+        showSpecialMock = true;
+      }
+
+      // Determine ordering
+      let orderByClause: any = {};
+      if (sort === 'newest') {
+        orderByClause = { id: 'desc' };
+      } else if (sort === 'price-desc') {
+        orderByClause = { price: 'desc' };
+      } else if (sort === 'price-asc') {
+        orderByClause = { price: 'asc' };
+      } else if (sort === 'popular') {
+        orderByClause = { rating: 'desc' };
+      } else {
+        orderByClause = { id: 'asc' };
+      }
+
+      products = await prisma.product.findMany({
+        where: whereClause,
+        orderBy: orderByClause,
+        include: {
+          category: true,
+        },
+      });
+
+      if (showSpecialMock) {
+        // Mock mode: slice top 5 products and map them as special offers
+        products = products.slice(0, 5).map((prod, idx) => {
+          const offerEnd = new Date();
+          offerEnd.setDate(offerEnd.getDate() + 1);
+          return {
+            ...prod,
+            isSpecialOffer: true,
+            specialPrice: Math.round(prod.price * (0.8 + (idx * 0.03))), // 20%, 17%, 14% ...
+            specialOfferEnd: offerEnd,
+          };
+        });
+      } else {
+        // Sort by discount percentage descending
+        products.sort((a, b) => {
+          const discountA = (a.price - (a.specialPrice || a.price)) / a.price;
+          const discountB = (b.price - (b.specialPrice || b.price)) / b.price;
+          return discountB - discountA;
+        });
+      }
     } else {
-      showSpecialMock = true;
+      // Manual mode: show selected ids
+      const selectedIds = settings.specialOffersProductIds || [];
+      whereClause.id = { in: selectedIds };
+      
+      products = await prisma.product.findMany({
+        where: whereClause,
+        include: {
+          category: true,
+        },
+      });
+      // Sort to preserve order of manual selection
+      products.sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
     }
-  }
-
-  // Determine ordering
-  let orderByClause: any = {};
-  if (sort === 'newest') {
-    orderByClause = { id: 'desc' };
-  } else if (sort === 'price-desc') {
-    orderByClause = { price: 'desc' };
-  } else if (sort === 'price-asc') {
-    orderByClause = { price: 'asc' };
-  } else if (sort === 'popular') {
-    orderByClause = { rating: 'desc' };
   } else {
-    orderByClause = { id: 'asc' };
-  }
+    // Normal query
+    // Determine ordering
+    let orderByClause: any = {};
+    if (sort === 'newest') {
+      orderByClause = { id: 'desc' };
+    } else if (sort === 'price-desc') {
+      orderByClause = { price: 'desc' };
+    } else if (sort === 'price-asc') {
+      orderByClause = { price: 'asc' };
+    } else if (sort === 'popular') {
+      orderByClause = { rating: 'desc' };
+    } else {
+      orderByClause = { id: 'asc' };
+    }
 
-  let products = await prisma.product.findMany({
-    where: whereClause,
-    orderBy: orderByClause,
-    include: {
-      category: true,
-    },
-  });
-
-  if (showSpecialMock) {
-    // Mock mode: slice top 5 products and map them as special offers
-    products = products.slice(0, 5).map((prod, idx) => {
-      const offerEnd = new Date();
-      offerEnd.setDate(offerEnd.getDate() + 1);
-      return {
-        ...prod,
-        isSpecialOffer: true,
-        specialPrice: Math.round(prod.price * (0.8 + (idx * 0.03))), // 20%, 17%, 14% ...
-        specialOfferEnd: offerEnd,
-      };
+    products = await prisma.product.findMany({
+      where: whereClause,
+      orderBy: orderByClause,
+      include: {
+        category: true,
+      },
     });
   }
 

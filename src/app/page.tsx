@@ -34,17 +34,34 @@ function getSettings() {
 
 export default async function Home() {
   const settings = getSettings();
-  const products = await prisma.product.findMany({
-    where: {
-      category: {
-        slug: {
-          in: ['notary-office-equipment', 'fingerprint-scanner', 'signature-pad', 'security-token']
-        }
+  
+  // Notary Office Products query
+  let products;
+  if (settings.notaryProductIds && settings.notaryProductIds.length > 0) {
+    products = await prisma.product.findMany({
+      where: {
+        id: { in: settings.notaryProductIds }
+      },
+      include: {
+        category: true,
       }
-    },
-    take: 3,
-    orderBy: { rating: 'desc' },
-  });
+    });
+    // Preserve manual sorting order from settings
+    const notaryOrder = settings.notaryProductIds || [];
+    products.sort((a, b) => notaryOrder.indexOf(a.id) - notaryOrder.indexOf(b.id));
+  } else {
+    products = await prisma.product.findMany({
+      where: {
+        category: {
+          slug: {
+            in: ['notary-office-equipment', 'fingerprint-scanner', 'signature-pad', 'security-token']
+          }
+        }
+      },
+      take: 3,
+      orderBy: { rating: 'desc' },
+    });
+  }
 
   const posts = await prisma.post.findMany({
     take: 2,
@@ -57,31 +74,52 @@ export default async function Home() {
   sharedOfferEnd.setMinutes(sharedOfferEnd.getMinutes() + 6);
   sharedOfferEnd.setSeconds(sharedOfferEnd.getSeconds() + 11);
 
-  // Check count of real special offers in DB
-  const realSpecialCount = await prisma.product.count({
-    where: { isSpecialOffer: true }
-  });
-
+  // Special Offers logic
   let dbProductsForOffers;
   let isMocked = false;
 
-  if (realSpecialCount > 0) {
-    dbProductsForOffers = await prisma.product.findMany({
-      where: { isSpecialOffer: true },
-      include: {
-        category: true,
-      },
-      orderBy: { rating: 'desc' },
+  if (settings.specialOffersAuto !== false) {
+    // Auto mode: fetch products marked as special offer
+    const realSpecialCount = await prisma.product.count({
+      where: { isSpecialOffer: true }
     });
+
+    if (realSpecialCount > 0) {
+      dbProductsForOffers = await prisma.product.findMany({
+        where: { isSpecialOffer: true },
+        include: {
+          category: true,
+        }
+      });
+      // Sort by discount percentage descending: (price - specialPrice) / price
+      dbProductsForOffers.sort((a, b) => {
+        const discountA = (a.price - (a.specialPrice || a.price)) / a.price;
+        const discountB = (b.price - (b.specialPrice || b.price)) / b.price;
+        return discountB - discountA;
+      });
+    } else {
+      isMocked = true;
+      dbProductsForOffers = await prisma.product.findMany({
+        take: 5,
+        include: {
+          category: true,
+        },
+        orderBy: { rating: 'desc' },
+      });
+    }
   } else {
-    isMocked = true;
+    // Manual mode: fetch only specified products
+    const selectedIds = settings.specialOffersProductIds || [];
     dbProductsForOffers = await prisma.product.findMany({
-      take: 5,
+      where: {
+        id: { in: selectedIds }
+      },
       include: {
         category: true,
-      },
-      orderBy: { rating: 'desc' },
+      }
     });
+    // Preserve manual sorting order from settings
+    dbProductsForOffers.sort((a, b) => selectedIds.indexOf(a.id) - selectedIds.indexOf(b.id));
   }
 
   const specialOffers = dbProductsForOffers.map((prod, idx) => {
