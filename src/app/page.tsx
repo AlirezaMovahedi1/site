@@ -5,7 +5,7 @@ import prisma from '../lib/prisma';
 import ProductCard from '../components/ProductCard';
 import HomeSlider from '../components/HomeSlider';
 import SpecialOffers from '../components/SpecialOffers';
-import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock, Monitor, FileCode2, GraduationCap, Briefcase, LifeBuoy } from 'lucide-react';
 import styles from './page.module.css';
 import fs from 'fs';
 import path from 'path';
@@ -78,6 +78,57 @@ export default async function Home() {
 
       {/* Special Offers Section */}
       <SpecialOffers products={specialOffers} />
+
+      {/* About Seyedi IT Section */}
+      <section className={styles.aboutSection}>
+        <div className="container">
+          <div className={styles.aboutContent}>
+            <div className={styles.aboutTextSection}>
+              <h3 className={styles.sectionTitle}>درباره سیدی آی‌تی</h3>
+              <p className={styles.aboutParagraph}>
+                سیدی آی‌تی خدمات دفترخانه اسناد رسمی کشور، با هدف ارائه خدمات جامع و تخصصی به دفاتر اسناد رسمی و ازدواج، پا به عرصه گذاشته است. ما با بهره‌گیری از تیمی متخصص و مجرب، در تلاشیم تا تمامی نیازهای شما عزیزان را در این حوزه برآورده سازیم. از تجهیزات مدرن و باکیفیت گرفته تا نرم‌افزارهای کاربردی و آموزش‌های تخصصی، همه چیز در ثبت رایانه برای شما فراهم است.
+              </p>
+              
+              <h4 className={styles.aboutServicesTitle}>در سیدی آی‌تی، شما می‌توانید خدمات زیر را دریافت کنید:</h4>
+              
+              <div className={styles.servicesGrid}>
+                <div className={styles.serviceItem}>
+                  <Monitor className={styles.serviceIcon} />
+                  <span className={styles.serviceLabel}>تجهیزات مدرن و باکیفیت</span>
+                </div>
+                <div className={styles.serviceItem}>
+                  <FileCode2 className={styles.serviceIcon} />
+                  <span className={styles.serviceLabel}>نرم‌افزارهای تخصصی</span>
+                </div>
+                <div className={styles.serviceItem}>
+                  <GraduationCap className={styles.serviceIcon} />
+                  <span className={styles.serviceLabel}>آموزش‌های تخصصی</span>
+                </div>
+                <div className={styles.serviceItem}>
+                  <Briefcase className={styles.serviceIcon} />
+                  <span className={styles.serviceLabel}>خدمات کاریابی</span>
+                </div>
+                <div className={styles.serviceItem} style={{ gridColumn: 'span 2' }}>
+                  <LifeBuoy className={styles.serviceIcon} />
+                  <span className={styles.serviceLabel}>پشتیبانی فنی</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.aboutVisualSection}>
+              <div className={styles.aboutImageWrapper}>
+                <Image
+                  src="/images/support_banner_v3.png"
+                  alt="درباره سیدی آی‌تی"
+                  fill
+                  className={styles.aboutImage}
+                  sizes="(max-width: 768px) 100vw, 420px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Trust Badges */}
       {settings.showFeatures && (

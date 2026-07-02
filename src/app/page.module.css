@@ -349,3 +349,118 @@
     min-height: auto;
   }
 }
+
+/* About Seyedi IT section */
+.aboutSection {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 80px 0;
+}
+
+.aboutContent {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+  direction: rtl;
+}
+
+.aboutTextSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.aboutParagraph {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  text-align: justify;
+}
+
+.aboutServicesTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 10px;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--bg-primary);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.serviceItem:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+.serviceIcon {
+  color: var(--accent);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.serviceLabel {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.aboutVisualSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.aboutImageWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+.aboutImage {
+  object-fit: cover;
+}
+
+@media (max-width: 992px) {
+  .aboutContent {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .aboutVisualSection {
+    order: -1;
+  }
+}
+
+@media (max-width: 576px) {
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+  .serviceItem {
+    grid-column: span 1 !important;
+  }
+}
+
