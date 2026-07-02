@@ -35,6 +35,13 @@ function getSettings() {
 export default async function Home() {
   const settings = getSettings();
   const products = await prisma.product.findMany({
+    where: {
+      category: {
+        slug: {
+          in: ['notary-office-equipment', 'fingerprint-scanner', 'signature-pad', 'security-token']
+        }
+      }
+    },
     take: 3,
     orderBy: { rating: 'desc' },
   });
@@ -141,14 +148,14 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Featured Products */}
+      {/* Notary Office Products */}
       {settings.showProducts && (
         <section className={`${styles.section} ${styles.bgSecondary}`}>
           <div className="container">
             <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>محصولات برگزیده</h3>
-              <Link href="/products" className={styles.seeAllLink}>
-                مشاهده همه محصولات <ArrowLeft size={16} />
+              <h3 className={styles.sectionTitle}>محصولات دفترخانه‌ای</h3>
+              <Link href="/products?category=notary-office-equipment" className={styles.seeAllLink}>
+                مشاهده همه محصولات دفترخانه‌ای <ArrowLeft size={16} />
               </Link>
             </div>
             <div className={styles.productsGrid}>
