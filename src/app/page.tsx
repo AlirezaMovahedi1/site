@@ -155,7 +155,9 @@ export default async function Home() {
       )}
 
       {/* Special Offers Section */}
-      <SpecialOffers products={specialOffers} />
+      {settings.showSpecialOffers && (
+        <SpecialOffers products={specialOffers} />
+      )}
 
       {/* About Seyedi IT Section */}
       <section className={styles.aboutSection}>
