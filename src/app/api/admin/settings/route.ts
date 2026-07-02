@@ -10,6 +10,8 @@ const defaultSettings = {
   showCategories: true,
   showProducts: true,
   showBlog: true,
+  aboutTitle: 'درباره سیدی آی‌تی',
+  aboutText: 'مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.',
   banners: [
     {
       id: 1,
@@ -55,6 +57,8 @@ export async function POST(request: Request) {
       showCategories: body.showCategories !== undefined ? body.showCategories : currentSettings.showCategories,
       showProducts: body.showProducts !== undefined ? body.showProducts : currentSettings.showProducts,
       showBlog: body.showBlog !== undefined ? body.showBlog : currentSettings.showBlog,
+      aboutTitle: body.aboutTitle !== undefined ? body.aboutTitle : currentSettings.aboutTitle,
+      aboutText: body.aboutText !== undefined ? body.aboutText : currentSettings.aboutText,
       banners: body.banners !== undefined ? body.banners : currentSettings.banners
     };
     fs.writeFileSync(settingsFilePath, JSON.stringify(newSettings, null, 2));

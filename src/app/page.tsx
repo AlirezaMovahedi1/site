@@ -57,20 +57,41 @@ export default async function Home() {
   sharedOfferEnd.setMinutes(sharedOfferEnd.getMinutes() + 6);
   sharedOfferEnd.setSeconds(sharedOfferEnd.getSeconds() + 11);
 
-  const dbProductsForOffers = await prisma.product.findMany({
-    take: 5,
-    include: {
-      category: true,
-    },
-    orderBy: { rating: 'desc' },
+  // Check count of real special offers in DB
+  const realSpecialCount = await prisma.product.count({
+    where: { isSpecialOffer: true }
   });
+
+  let dbProductsForOffers;
+  let isMocked = false;
+
+  if (realSpecialCount > 0) {
+    dbProductsForOffers = await prisma.product.findMany({
+      where: { isSpecialOffer: true },
+      include: {
+        category: true,
+      },
+      orderBy: { rating: 'desc' },
+    });
+  } else {
+    isMocked = true;
+    dbProductsForOffers = await prisma.product.findMany({
+      take: 5,
+      include: {
+        category: true,
+      },
+      orderBy: { rating: 'desc' },
+    });
+  }
 
   const specialOffers = dbProductsForOffers.map((prod, idx) => {
     return {
       ...prod,
       isSpecialOffer: true,
-      specialPrice: Math.round(prod.price * (0.8 + (idx * 0.03))), // varying discounts (e.g. 20%, 17%, 14%...)
-      specialOfferEnd: sharedOfferEnd,
+      specialPrice: isMocked 
+        ? Math.round(prod.price * (0.8 + (idx * 0.03))) 
+        : (prod.specialPrice || prod.price),
+      specialOfferEnd: prod.specialOfferEnd || sharedOfferEnd,
     };
   });
 
@@ -90,9 +111,9 @@ export default async function Home() {
       <section className={styles.aboutSection}>
         <div className="container">
           <div className={styles.aboutContent}>
-            <h3 className={styles.sectionTitle}>درباره سیدی آی‌تی</h3>
+            <h3 className={styles.sectionTitle}>{settings.aboutTitle || 'درباره سیدی آی‌تی'}</h3>
             <p className={styles.aboutParagraph}>
-              مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه می‌شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.
+              {settings.aboutText || 'مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.'}
             </p>
           </div>
         </div>
