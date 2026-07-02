@@ -145,129 +145,132 @@ export default async function Home() {
     };
   });
 
+  const homepageOrder = settings.homepageOrder || ["banners", "specialOffers", "about", "features", "products", "blog"];
+
   return (
     <div className={styles.home}>
-      {/* Home Image Slideshow */}
-      {settings.showBanners && (
-        <div className="container" style={{ marginTop: '24px', marginBottom: '8px' }}>
-          <HomeSlider slides={settings.banners && settings.banners.length > 0 ? settings.banners : undefined} />
-        </div>
-      )}
+      {homepageOrder.map((sectionKey: string) => {
+        switch (sectionKey) {
+          case 'banners':
+            return settings.showBanners && (
+              <div key="banners" className="container" style={{ marginTop: '24px', marginBottom: '8px' }}>
+                <HomeSlider slides={settings.banners && settings.banners.length > 0 ? settings.banners : undefined} />
+              </div>
+            );
+          case 'specialOffers':
+            return settings.showSpecialOffers && (
+              <SpecialOffers key="specialOffers" products={specialOffers} />
+            );
+          case 'about':
+            return (
+              <section key="about" className={styles.aboutSection}>
+                <div className="container">
+                  <div className={styles.aboutContent}>
+                    <h3 className={styles.sectionTitle}>{settings.aboutTitle || 'درباره سیدی آی‌تی'}</h3>
+                    <p className={styles.aboutParagraph}>
+                      {settings.aboutText || 'مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.'}
+                    </p>
+                  </div>
+                </div>
+              </section>
+            );
+          case 'features':
+            return settings.showFeatures && (
+              <section key="features" className={styles.features}>
+                <div className={`container ${styles.featuresContainer}`}>
+                  <div className={styles.featureCard}>
+                    <Award className={styles.featureIcon} />
+                    <h4>ضمانت ۱۰۰٪ اصالت</h4>
+                    <p>تمامی لایسنس‌ها و قطعات سخت‌افزاری به صورت اورجینال ارائه می‌شوند.</p>
+                  </div>
+                  <div className={styles.featureCard}>
+                    <ShieldCheck className={styles.featureIcon} />
+                    <h4>پشتیبانی فنی تخصصی</h4>
+                    <p>تیم متخصصان ما در مراحل نصب، راه‌اندازی و کانفیگ در کنار شما هستند.</p>
+                  </div>
+                  <div className={styles.featureCard}>
+                    <Zap className={styles.featureIcon} />
+                    <h4>ارسال فوری و ایمن</h4>
+                    <p>تحویل آنی لایسنس‌های دیجیتال و ارسال سریع سخت‌افزارها با پست پیشتاز.</p>
+                  </div>
+                </div>
+              </section>
+            );
+          case 'products':
+            return settings.showProducts && (
+              <section key="products" className={`${styles.section} ${styles.bgSecondary}`}>
+                <div className="container">
+                  <div className={styles.sectionHeader}>
+                    <h3 className={styles.sectionTitle}>محصولات دفترخانه‌ای</h3>
+                    <Link href="/products?category=notary-office-equipment" className={styles.seeAllLink}>
+                      مشاهده همه محصولات دفترخانه‌ای <ArrowLeft size={16} />
+                    </Link>
+                  </div>
+                  <div className={styles.productsGrid}>
+                    {products.map((prod) => (
+                      <ProductCard key={prod.id} product={prod} />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            );
+          case 'blog':
+            return settings.showBlog && (
+              <section key="blog" className={styles.section}>
+                <div className="container">
+                  <div className={styles.sectionHeader}>
+                    <h3 className={styles.sectionTitle}>آخرین مطالب وبلاگ آموزشی</h3>
+                    <Link href="/blog" className={styles.seeAllLink}>
+                      مشاهده همه مقالات <ArrowLeft size={16} />
+                    </Link>
+                  </div>
+                  <div className={styles.blogGrid}>
+                    {posts.map((post) => {
+                      const formattedDate = new Intl.DateTimeFormat('fa-IR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      }).format(post.createdAt);
 
-      {/* Special Offers Section */}
-      {settings.showSpecialOffers && (
-        <SpecialOffers products={specialOffers} />
-      )}
-
-      {/* About Seyedi IT Section */}
-      <section className={styles.aboutSection}>
-        <div className="container">
-          <div className={styles.aboutContent}>
-            <h3 className={styles.sectionTitle}>{settings.aboutTitle || 'درباره سیدی آی‌تی'}</h3>
-            <p className={styles.aboutParagraph}>
-              {settings.aboutText || 'مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.'}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Badges */}
-      {settings.showFeatures && (
-        <section className={styles.features}>
-          <div className={`container ${styles.featuresContainer}`}>
-            <div className={styles.featureCard}>
-              <Award className={styles.featureIcon} />
-              <h4>ضمانت ۱۰۰٪ اصالت</h4>
-              <p>تمامی لایسنس‌ها و قطعات سخت‌افزاری به صورت اورجینال ارائه می‌شوند.</p>
-            </div>
-            <div className={styles.featureCard}>
-              <ShieldCheck className={styles.featureIcon} />
-              <h4>پشتیبانی فنی تخصصی</h4>
-              <p>تیم متخصصان ما در مراحل نصب، راه‌اندازی و کانفیگ در کنار شما هستند.</p>
-            </div>
-            <div className={styles.featureCard}>
-              <Zap className={styles.featureIcon} />
-              <h4>ارسال فوری و ایمن</h4>
-              <p>تحویل آنی لایسنس‌های دیجیتال و ارسال سریع سخت‌افزارها با پست پیشتاز.</p>
-            </div>
-          </div>
-        </section>
-      )}
-
-
-
-      {/* Notary Office Products */}
-      {settings.showProducts && (
-        <section className={`${styles.section} ${styles.bgSecondary}`}>
-          <div className="container">
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>محصولات دفترخانه‌ای</h3>
-              <Link href="/products?category=notary-office-equipment" className={styles.seeAllLink}>
-                مشاهده همه محصولات دفترخانه‌ای <ArrowLeft size={16} />
-              </Link>
-            </div>
-            <div className={styles.productsGrid}>
-              {products.map((prod) => (
-                <ProductCard key={prod.id} product={prod} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Recent Blog Posts */}
-      {settings.showBlog && (
-        <section className={styles.section}>
-          <div className="container">
-            <div className={styles.sectionHeader}>
-              <h3 className={styles.sectionTitle}>آخرین مطالب وبلاگ آموزشی</h3>
-              <Link href="/blog" className={styles.seeAllLink}>
-                مشاهده همه مقالات <ArrowLeft size={16} />
-              </Link>
-            </div>
-            <div className={styles.blogGrid}>
-              {posts.map((post) => {
-                const formattedDate = new Intl.DateTimeFormat('fa-IR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                }).format(post.createdAt);
-
-                return (
-                  <article key={post.id} className={styles.blogCard}>
-                    <div className={styles.blogImageWrapper}>
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className={styles.blogImage}
-                      />
-                    </div>
-                    <div className={styles.blogContent}>
-                      <div className={styles.blogMeta}>
-                        <span className={styles.blogMetaItem}>
-                          <Calendar size={14} /> {formattedDate}
-                        </span>
-                        <span className={styles.blogMetaItem}>
-                          <Clock size={14} /> {post.readTime}
-                        </span>
-                      </div>
-                      <Link href={`/blog/${post.slug}`}>
-                        <h4 className={styles.blogTitle}>{post.title}</h4>
-                      </Link>
-                      <p className={styles.blogSummary}>{post.summary}</p>
-                      <Link href={`/blog/${post.slug}`} className={styles.blogLink}>
-                        ادامه مطلب <ArrowLeft size={16} />
-                      </Link>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
+                      return (
+                        <article key={post.id} className={styles.blogCard}>
+                          <div className={styles.blogImageWrapper}>
+                            <Image
+                              src={post.image}
+                              alt={post.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 50vw"
+                              className={styles.blogImage}
+                            />
+                          </div>
+                          <div className={styles.blogContent}>
+                            <div className={styles.blogMeta}>
+                              <span className={styles.blogMetaItem}>
+                                <Calendar size={14} /> {formattedDate}
+                              </span>
+                              <span className={styles.blogMetaItem}>
+                                <Clock size={14} /> {post.readTime}
+                              </span>
+                            </div>
+                            <Link href={`/blog/${post.slug}`}>
+                              <h4 className={styles.blogTitle}>{post.title}</h4>
+                            </Link>
+                            <p className={styles.blogSummary}>{post.summary}</p>
+                            <Link href={`/blog/${post.slug}`} className={styles.blogLink}>
+                              ادامه مطلب <ArrowLeft size={16} />
+                            </Link>
+                          </div>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            );
+          default:
+            return null;
+        }
+      })}
     </div>
   );
 }

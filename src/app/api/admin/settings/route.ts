@@ -17,12 +17,13 @@ const defaultSettings = {
   notaryProductIds: [] as string[],
   blogPostsAuto: true,
   blogPostIds: [] as string[],
+  homepageOrder: ["banners", "specialOffers", "about", "features", "products", "blog"] as string[],
   banners: [
     {
       id: 1,
       image: '/images/shop_banner_v3.png',
       link: '/products',
-      title: 'فروشگاه آنلاین سیدی آی‌تی'
+      title: 'فروشکاه آنلاین سیدی آی‌تی'
     },
     {
       id: 2,
@@ -69,6 +70,7 @@ export async function POST(request: Request) {
       notaryProductIds: body.notaryProductIds !== undefined ? body.notaryProductIds : currentSettings.notaryProductIds,
       blogPostsAuto: body.blogPostsAuto !== undefined ? body.blogPostsAuto : currentSettings.blogPostsAuto,
       blogPostIds: body.blogPostIds !== undefined ? body.blogPostIds : currentSettings.blogPostIds,
+      homepageOrder: body.homepageOrder !== undefined ? body.homepageOrder : currentSettings.homepageOrder,
       banners: body.banners !== undefined ? body.banners : currentSettings.banners
     };
     fs.writeFileSync(settingsFilePath, JSON.stringify(newSettings, null, 2));
