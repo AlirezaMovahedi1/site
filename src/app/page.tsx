@@ -63,10 +63,22 @@ export default async function Home() {
     });
   }
 
-  const posts = await prisma.post.findMany({
-    take: 2,
-    orderBy: { createdAt: 'desc' },
-  });
+  let posts;
+  if (settings.blogPostsAuto !== false) {
+    posts = await prisma.post.findMany({
+      take: 2,
+      orderBy: { createdAt: 'desc' },
+    });
+  } else {
+    const selectedPostIds = settings.blogPostIds || [];
+    posts = await prisma.post.findMany({
+      where: {
+        id: { in: selectedPostIds }
+      }
+    });
+    // Keep manual selection order
+    posts.sort((a, b) => selectedPostIds.indexOf(a.id) - selectedPostIds.indexOf(b.id));
+  }
 
   const sharedOfferEnd = new Date();
   sharedOfferEnd.setDate(sharedOfferEnd.getDate() + 1);

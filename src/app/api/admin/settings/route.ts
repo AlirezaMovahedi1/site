@@ -14,6 +14,8 @@ const defaultSettings = {
   specialOffersAuto: true,
   specialOffersProductIds: [] as string[],
   notaryProductIds: [] as string[],
+  blogPostsAuto: true,
+  blogPostIds: [] as string[],
   banners: [
     {
       id: 1,
@@ -63,6 +65,8 @@ export async function POST(request: Request) {
       specialOffersAuto: body.specialOffersAuto !== undefined ? body.specialOffersAuto : currentSettings.specialOffersAuto,
       specialOffersProductIds: body.specialOffersProductIds !== undefined ? body.specialOffersProductIds : currentSettings.specialOffersProductIds,
       notaryProductIds: body.notaryProductIds !== undefined ? body.notaryProductIds : currentSettings.notaryProductIds,
+      blogPostsAuto: body.blogPostsAuto !== undefined ? body.blogPostsAuto : currentSettings.blogPostsAuto,
+      blogPostIds: body.blogPostIds !== undefined ? body.blogPostIds : currentSettings.blogPostIds,
       banners: body.banners !== undefined ? body.banners : currentSettings.banners
     };
     fs.writeFileSync(settingsFilePath, JSON.stringify(newSettings, null, 2));
