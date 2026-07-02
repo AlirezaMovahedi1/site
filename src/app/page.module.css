@@ -362,61 +362,16 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   direction: rtl;
 }
 
 .aboutParagraph {
   font-size: 1.05rem;
-  line-height: 1.9;
+  line-height: 1.95;
   color: var(--text-secondary);
   text-align: justify;
 }
 
-.aboutServicesList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background-color: var(--bg-primary);
-  padding: 24px;
-  border-radius: 16px;
-  border: 1px solid var(--border-color);
-}
-
-.aboutServicesTitle {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.servicesSimpleList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.serviceSimpleItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.serviceSimpleIcon {
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-@media (max-width: 768px) {
-  .servicesSimpleList {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-}
 
 

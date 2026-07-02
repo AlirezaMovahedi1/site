@@ -5,7 +5,7 @@ import prisma from '../lib/prisma';
 import ProductCard from '../components/ProductCard';
 import HomeSlider from '../components/HomeSlider';
 import SpecialOffers from '../components/SpecialOffers';
-import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock, Check } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Zap, Award, Calendar, Clock } from 'lucide-react';
 import styles from './page.module.css';
 import fs from 'fs';
 import path from 'path';
@@ -85,30 +85,8 @@ export default async function Home() {
           <div className={styles.aboutContent}>
             <h3 className={styles.sectionTitle}>درباره سیدی آی‌تی</h3>
             <p className={styles.aboutParagraph}>
-              مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه می‌شوند.
+              مجموعه سیدی آی‌تی به عنوان مرجع تخصصی ارائه خدمات فناوری و سخت‌افزاری به دفاتر اسناد رسمی و ازدواج در سراسر کشور فعالیت می‌کند. ما تلاش می‌کنیم تا با تکیه بر دانش فنی و شناخت دقیق نیازهای این حوزه، بستری یکپارچه برای رفع تمام نیازهای رایانه‌ای و اداری شما فراهم سازیم. از مشاوره و تأمین پیشرفته‌ترین تجهیزات سخت‌افزاری بیومتریک تا ارائه لایسنس‌های نرم‌افزاری معتبر و آموزش‌های کاربردی، همگی با ضمانت کیفیت و پشتیبانی دائم در سیدی آی‌تی ارائه می‌شوند. در همین راستا، شما می‌توانید خدماتی همچون تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری، ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر، آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان، و همچنین پشتیبانی فنی و شبکه‌ای مستمر و سریع را از ما دریافت کنید.
             </p>
-            
-            <div className={styles.aboutServicesList}>
-              <h4 className={styles.aboutServicesTitle}>محورهای اصلی خدمات ما:</h4>
-              <ul className={styles.servicesSimpleList}>
-                <li className={styles.serviceSimpleItem}>
-                  <Check size={18} className={styles.serviceSimpleIcon} />
-                  <span>تأمین و راه‌اندازی تجهیزات مدرن و سخت‌افزارهای تخصصی اداری</span>
-                </li>
-                <li className={styles.serviceSimpleItem}>
-                  <Check size={18} className={styles.serviceSimpleIcon} />
-                  <span>ارائه لایسنس‌های اورجینال و نرم‌افزارهای کاربردی دفاتر</span>
-                </li>
-                <li className={styles.serviceSimpleItem}>
-                  <Check size={18} className={styles.serviceSimpleIcon} />
-                  <span>آموزش‌های تخصصی و کاربردی ویژه سردفتران و کارکنان</span>
-                </li>
-                <li className={styles.serviceSimpleItem}>
-                  <Check size={18} className={styles.serviceSimpleIcon} />
-                  <span>پشتیبانی فنی و شبکه‌ای مستمر و سریع</span>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </section>
