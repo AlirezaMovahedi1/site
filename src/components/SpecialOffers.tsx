@@ -66,7 +66,7 @@ export default function SpecialOffers({ products }: SpecialOffersProps) {
             <h3 className={styles.sectionTitle}>پیشنهاد ویژه</h3>
           </div>
           
-          <Link href="/products" className={styles.seeAllLink}>
+          <Link href="/products?special=true" className={styles.seeAllLink}>
             <span>مشاهده همه</span>
             <ArrowLeft size={16} />
           </Link>

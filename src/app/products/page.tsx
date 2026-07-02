@@ -12,6 +12,7 @@ interface SearchParams {
   search?: string;
   category?: string;
   sort?: string;
+  special?: string;
 }
 
 export default async function ProductsPage({
@@ -23,9 +24,28 @@ export default async function ProductsPage({
   const searchQuery = params.search || '';
   const categorySlug = params.category || '';
   const sort = params.sort || 'default';
+  const showSpecial = params.special === 'true';
 
   // Get categories for filter list
   const categories = await prisma.category.findMany();
+
+  // Helper for clean parameter URLs
+  const getQueryUrl = (newParams: { sort?: string; category?: string; search?: string; special?: boolean | null }) => {
+    const finalParams = {
+      sort: newParams.sort !== undefined ? newParams.sort : sort,
+      category: newParams.category !== undefined ? newParams.category : categorySlug,
+      search: newParams.search !== undefined ? newParams.search : searchQuery,
+      special: newParams.special !== undefined ? (newParams.special ? 'true' : '') : (showSpecial ? 'true' : ''),
+    };
+
+    const parts = [];
+    if (finalParams.sort && finalParams.sort !== 'default') parts.push(`sort=${finalParams.sort}`);
+    if (finalParams.category) parts.push(`category=${finalParams.category}`);
+    if (finalParams.search) parts.push(`search=${encodeURIComponent(finalParams.search)}`);
+    if (finalParams.special === 'true') parts.push(`special=true`);
+
+    return `/products${parts.length > 0 ? `?${parts.join('&')}` : ''}`;
+  };
 
   // Build prisma query filters
   const whereClause: any = {};
@@ -39,6 +59,20 @@ export default async function ProductsPage({
 
   if (categorySlug) {
     whereClause.category = { slug: categorySlug };
+  }
+
+  // Check count of real special offers in DB
+  const specialCount = await prisma.product.count({
+    where: { isSpecialOffer: true }
+  });
+
+  let showSpecialMock = false;
+  if (showSpecial) {
+    if (specialCount > 0) {
+      whereClause.isSpecialOffer = true;
+    } else {
+      showSpecialMock = true;
+    }
   }
 
   // Determine ordering
@@ -55,13 +89,27 @@ export default async function ProductsPage({
     orderByClause = { id: 'asc' };
   }
 
-  const products = await prisma.product.findMany({
+  let products = await prisma.product.findMany({
     where: whereClause,
     orderBy: orderByClause,
     include: {
       category: true,
     },
   });
+
+  if (showSpecialMock) {
+    // Mock mode: slice top 5 products and map them as special offers
+    products = products.slice(0, 5).map((prod, idx) => {
+      const offerEnd = new Date();
+      offerEnd.setDate(offerEnd.getDate() + 1);
+      return {
+        ...prod,
+        isSpecialOffer: true,
+        specialPrice: Math.round(prod.price * (0.8 + (idx * 0.03))), // 20%, 17%, 14% ...
+        specialOfferEnd: offerEnd,
+      };
+    });
+  }
 
   return (
     <div className={`container ${styles.page}`}>
@@ -85,41 +133,31 @@ export default async function ProductsPage({
         </div>
         <div className={styles.sortOptions}>
           <a
-            href={`/products?sort=default${categorySlug ? `&category=${categorySlug}` : ''}${
-              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-            }`}
+            href={getQueryUrl({ sort: 'default' })}
             className={`${styles.sortChip} ${sort === 'default' ? styles.sortChipActive : ''}`}
           >
             پیش‌فرض
           </a>
           <a
-            href={`/products?sort=newest${categorySlug ? `&category=${categorySlug}` : ''}${
-              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-            }`}
+            href={getQueryUrl({ sort: 'newest' })}
             className={`${styles.sortChip} ${sort === 'newest' ? styles.sortChipActive : ''}`}
           >
             جدیدترین
           </a>
           <a
-            href={`/products?sort=price-desc${categorySlug ? `&category=${categorySlug}` : ''}${
-              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-            }`}
+            href={getQueryUrl({ sort: 'price-desc' })}
             className={`${styles.sortChip} ${sort === 'price-desc' ? styles.sortChipActive : ''}`}
           >
             بیشترین قیمت
           </a>
           <a
-            href={`/products?sort=price-asc${categorySlug ? `&category=${categorySlug}` : ''}${
-              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-            }`}
+            href={getQueryUrl({ sort: 'price-asc' })}
             className={`${styles.sortChip} ${sort === 'price-asc' ? styles.sortChipActive : ''}`}
           >
             کمترین قیمت
           </a>
           <a
-            href={`/products?sort=popular${categorySlug ? `&category=${categorySlug}` : ''}${
-              searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-            }`}
+            href={getQueryUrl({ sort: 'popular' })}
             className={`${styles.sortChip} ${sort === 'popular' ? styles.sortChipActive : ''}`}
           >
             پرفروش‌ترین
@@ -142,6 +180,7 @@ export default async function ProductsPage({
               />
               {categorySlug && <input type="hidden" name="category" value={categorySlug} />}
               {sort && sort !== 'default' && <input type="hidden" name="sort" value={sort} />}
+              {showSpecial && <input type="hidden" name="special" value="true" />}
               <button type="submit" className={styles.searchBtn}>اعمال</button>
             </form>
           </div>
@@ -149,20 +188,25 @@ export default async function ProductsPage({
           <div className={styles.filterGroup}>
             <h4 className={styles.filterTitle}>دسته‌بندی‌ها</h4>
             <div className={styles.filterLinks}>
+              {/* Special Offers Toggle Link */}
               <a
-                href={`/products${sort && sort !== 'default' ? `?sort=${sort}` : ''}${
-                  searchQuery ? `${sort && sort !== 'default' ? '&' : '?'}search=${encodeURIComponent(searchQuery)}` : ''
-                }`}
-                className={!categorySlug ? styles.activeLink : ''}
+                href={getQueryUrl({ special: !showSpecial })}
+                className={`${showSpecial ? styles.activeLink : ''}`}
+                style={{ color: '#ef4056', fontWeight: showSpecial ? 'bold' : 'normal' }}
+              >
+                🔥 پیشنهادهای ویژه
+              </a>
+
+              <a
+                href={getQueryUrl({ category: '', special: false })}
+                className={!categorySlug && !showSpecial ? styles.activeLink : ''}
               >
                 همه دسته‌ها
               </a>
               {categories.map((cat) => (
                 <a
                   key={cat.id}
-                  href={`/products?category=${cat.slug}${sort && sort !== 'default' ? `&sort=${sort}` : ''}${
-                    searchQuery ? `&search=${encodeURIComponent(searchQuery)}` : ''
-                  }`}
+                  href={getQueryUrl({ category: cat.slug })}
                   className={categorySlug === cat.slug ? styles.activeLink : ''}
                 >
                   {cat.name}
@@ -171,7 +215,7 @@ export default async function ProductsPage({
             </div>
           </div>
 
-          {(searchQuery || categorySlug || (sort && sort !== 'default')) && (
+          {(searchQuery || categorySlug || showSpecial || (sort && sort !== 'default')) && (
             <a href="/products" className={styles.clearFiltersBtn}>
               حذف همه فیلترها
             </a>
