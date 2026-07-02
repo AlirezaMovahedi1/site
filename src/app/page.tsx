@@ -142,32 +142,7 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Categories Grid */}
-      {settings.showCategories && (
-        <section className={styles.section}>
-          <div className="container">
-            <h3 className={styles.sectionTitle}>دسته‌بندی‌های اصلی</h3>
-            <div className={styles.categoriesGrid}>
-              <div className={styles.categoryCard}>
-                <div className={styles.categoryIconWrapper}>💻</div>
-                <h4>سخت‌افزار و تجهیزات اداری</h4>
-                <p>لپ‌تاپ‌های مقاوم، اسکنرهای بیومتریک و قطعات شبکه</p>
-                <Link href="/products?category=hardware-equipment" className={styles.categoryLink}>
-                  مشاهده محصولات سخت‌افزاری <ArrowLeft size={16} />
-                </Link>
-              </div>
-              <div className={styles.categoryCard}>
-                <div className={styles.categoryIconWrapper}>🔑</div>
-                <h4>نرم‌افزار و لایسنس‌های قانونی</h4>
-                <p>آنتی‌ویروس، سیستم‌عامل و ابزارهای امنیتی اورجینال</p>
-                <Link href="/products?category=software-licenses" className={styles.categoryLink}>
-                  مشاهده لایسنس‌ها <ArrowLeft size={16} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* Notary Office Products */}
       {settings.showProducts && (
